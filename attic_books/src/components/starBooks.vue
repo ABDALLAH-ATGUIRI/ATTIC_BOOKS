@@ -1,147 +1,111 @@
 <template>
-  <div class="star-book">
-    <div class="titer">
-      <h1>Par Nos Stars ></h1>
-    </div>
-    <div class="setion-motivation">
-      <div class="sp-scroll"> > </div>
-      <div class="info-sb">
-        <div>
-          <img class="book" src="../assets/books/943215.jpg" alt="" />
-          <div class="book-info">
-            <div>
-              <img class="icon" src="../assets/icons/vision-partagee (1).png" alt="">
-              <span>40M</span>
+  <div>
+    <div
+      class="bg-sky-500 w-5/6 rounded-xl mx-auto flex py-16 items-center justify-around"
+    >
+
+      <div class=" flex flex-col lg:flex-row w-10/12 items-center justify-center">
+        <div class="lg:w-1/2 ">
+         <book class="self-center"/>
+        </div>
+
+        <div class="flex flex-col h-80 justify-around text-white">
+          <p class="text-sm">
+            Le narrateur, un jeune enfant, décrit la vie et les relations
+            parfois compliquées des membres d'une famille regroupée autour de sa
+            grand-tante Félicie, sur un vaste domaine terrien du sud de la
+            Touraine dans les années qui suivent la guerre franco-allemande de
+            1870.
+          </p>
+          <div class=" flex flex-col w-full pt-5 items-center lg:flex-row justify-between">
+            <div class="flex w-64 text-sm justify-between">
+              <div class="flex justify-evenly items-center w-1/4">
+                <img
+                  class="w-5"
+                  src="../assets/icons/vision-partagee (1).png"
+                  alt=""
+                />
+                <span>40M</span>
+              </div>
+              <div class="flex justify-evenly items-center w-1/4">
+                <img class="w-4" src="../assets/icons/favori.png" alt="" />
+                <span>25M</span>
+              </div>
+              <div class="flex justify-evenly items-center w-1/3">
+                <span>par&nbsp;:&nbsp;@AyaAria</span>
+              </div>
             </div>
-            <div>
-              <img class="icon" src="../assets/icons/etoile-de-signet.png" alt="">
-              <span>25M</span>
-            </div>
-            <div>
-              <span>par : @AyaAria</span>
-            </div>
+            <button class="cta self-end text-white">
+              <span class="hover-underline-animation  text-white text-sm">
+                plus de détails -></span
+              >
+            </button>
           </div>
         </div>
-        
-        <div class="cont-des">
-          <h1>ROBIN HOBB</h1>
-          <p>
-            لكل من جفت مخيلته بسبب ضغوط الواقع! لكل من لديه أسلوب جيد لكن لا يجد
-            الأفكار! لكل من قاده فضوله لكتابي المتواضع هذا ! مرحبا بكم! سأضع هنا
-            كل الأفكار التي استغنيت عن تحويلها لقصة بسبب ظرف أو أخر و يمكنكم
-            استعمال...
-          </p>
-          <button>plus de détails</button>
-        </div>
       </div>
-      <div class="sp-scroll">></div>
     </div>
   </div>
 </template>
 
+
+<!-- **************************************************************************************************************************************** -->
+
+
+<script>
+import book from "./box/book.vue";
+
+export default {
+  name: "Suggestions",
+  components: {
+    book,
+  },
+};
+</script>
+
+<!-- ********************************************************************************************************************************************************* -->
+
+
 <style lang="css" scoped>
-  :root{
-    --firstColor : #10acef; 
-  }
-
-.setion-motivation {
-  align-self: center;
-  width: 80%;
-  height: 800px;
-  background: #10acef;
-  color: white;
-  margin-right: auto;
-  margin-left: auto;
-  height: 450px;
-  border-radius: 35px;
-  margin-top: 2%;
-  padding: 0 30px 0 30px;
-  display: flex;
-  align-items: center;
-}
-.book {
-  height: 80%;
-  width: 200px;
-}
-.book-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 10%;
-  font-size: 12px;
-
-}
-.icon {
-  width: 20px;
-}
-.info-sb {
-  display: flex;
-  align-items: center;
- padding: 3%;
- height: 80%;
-}
-.sp-scroll {
-  font-size: 36px;
-  font-weight: bold;
-  color: #10acef;
-  background-color: rgb(255, 255, 255);
-  padding: 1%;
-  border-radius: 100%;
-  text-align: center;
-  width:max-content
-
-}
-.cont-des {
-  padding: 4%;
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  
-}
-.cont-des h1 {
- text-align: center;
- font-size: 32px;
+.cta span {
+  padding-top: 8px;
+  padding-bottom: 6px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
-.cont-des p {
-  font-size: 20px;
+.cta svg {
+  transform: translateX(-8px);
+  transition: all 0.3s ease;
 }
 
-.cont-des button {
-  cursor: pointer;
-  font-weight: 700;
-  font-family: Helvetica,"sans-serif";
-  transition: all .2s;
-  padding: 10px 20px;
-  border-radius: 100px;
-  background: rgb(0, 102, 192);
-  border: 1px solid transparent;
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  color: white;
-  width: 20%;
+.cta:hover svg {
+  transform: translateX(0);
 }
 
-.cont-des button:hover{
-   background: var(--firstColor);
+.cta:active svg {
+  transform: scale(0.9);
 }
 
-.cont-des button > svg {
- width: 34px;
- margin-left: 10px;
- transition: transform .3s ease-in-out;
+.hover-underline-animation {
+  position: relative;
+  padding-bottom: 20px;
 }
 
-.cont-des button:hover svg {
- transform: translateX(5px);
+.hover-underline-animation:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1.5px;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
 }
 
-.cont-des button:active {
- transform: scale(0.95);
+.cta:hover .hover-underline-animation:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
-
-
 </style>

@@ -11,8 +11,13 @@
     "test:unit:ci": "cypress run-ct --quiet --reporter spec"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.6.3",
+    "@vue-hero-icons/outline": "^1.7.2",
+    "@vue-hero-icons/solid": "^1.7.2",
     "vue": "^3.2.33",
-    "vue-router": "^4.0.14"
+    "vue-heroicons": "^0.9.4",
+    "vue-router": "^4.0.14",
+    "vue3-popper": "^1.5.0"
   },
   "devDependencies": {
     "@cypress/vite-dev-server": "^2.2.2",
