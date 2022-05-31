@@ -2,30 +2,42 @@
   <Popover class="top-0 inset-x-0 transition transform origin-top-right">
     <div>
       <div
-        class="relative bg-sky-500 font-semibold self-center text-white flex items-center justify-between pl-10"
+        class="relative bg-sky-600 font-semibold self-center text-white flex items-center justify-between md:pl-10"
       >
-        <div>
-          <a href="#" id="ref">
-            <span class="sr-only">Workflow</span>
-            <img
-              id="logo"
-              class="h-16 md:h-28 pt-2 sm:h-20"
-              src="../../assets/test.png"
-              alt="logo"
-            />
-          </a>
-        </div>
+        <router-link to="/">
+          <img
+            id="logo"
+            class="pt-2 w-48 sm: h-20"
+            src="../../assets/test.png"
+            alt="logo"
+          />
+        </router-link>
+
         <nav
-          class="hidden md:flex w-full justify-end items-center"
+          class="hidden md:flex pr-20 justify-end items-center"
           aria-label="Global"
         >
-          <div class="md:space-x-8">
+          <div class="md:space-x-8 w-full justify-between">
             <router-link to="/">Accueil</router-link>
-            <router-link to="/"> Auteurs </router-link>
-            <router-link to="/"> Mes rendez-vous </router-link>
-          </div>
-          <div class="w-2/6 flex justify-center">
-            <button class="conn-button text-black px-2">Connexion</button>
+
+            <router-link to="/Write"> Nouveau livre </router-link>
+
+            <router-link to="/Profile"> Profil </router-link>
+            <router-link to="/"> ... </router-link>
+            <button
+              @click="conn = !conn"
+              v-if="compte === 'Connexion'"
+              class="conn-button w-auto text-black px-4"
+            >
+              {{ this.compte }}
+            </button>
+            <button
+              v-else
+              @click="logout"
+              class="conn-button w-auto text-black px-4"
+            >
+              {{ this.compte }}
+            </button>
           </div>
         </nav>
         <div class="pr-20 md:hidden">
@@ -57,92 +69,95 @@
         </div>
       </div>
     </div>
-    <div class="relative h-[130px] lg:hidden">
-      <search></search>
+    <div class="lg:hidden">
+      <div
+        class="md:hidden lg:hidden drop-shadow-xl bg-sky-600 transform transition duration-500 ease-in-out"
+        :class="{ ' -translate-y-72': !open, ' h-0': !open }"
+      >
+        <div class="p-5 flex text-white font-bold items-center justify-evenly">
+          <router-link to="/">
+            <img
+              class="w-12 shadow-xl"
+              src="../../assets/icons/home.png"
+              alt=""
+            />
+          </router-link>
+          <router-link to="/Contact">
+            <img
+              class="w-12 shadow-xl"
+              src="../../assets/icons/writing.png"
+              alt=""
+            />
+          </router-link>
+          <router-link class="w-12" to="/Profil">
+            <img
+              class="w-12 shadow-xl"
+              src="../../assets/icons/user.png"
+              alt=""
+            />
+          </router-link>
+          <button @click="conn = !conn" v-if="compte === 'Connexion'">
+            <img
+              class="w-12 shadow-xl"
+              src="../../assets/icons/key.png"
+              alt=""
+            />
+          </button>
+          <button @click="logout" v-else>
+            <img
+              class="w-12 shadow-xl"
+              src="../../assets/icons/exit.png"
+              alt=""
+            />
+          </button>
+        </div>
+      </div>
+      <div class="drop-shadow-lg">
+        <search></search>
+      </div>
     </div>
-    <transition>
-      <PopoverPanel
-        focus
-        class="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+  </Popover>
+  <div
+    v-if="conn == true"
+    class="fixed w-full tsrons flex justify-center h-[120vh] absolute z-40"
+  >
+    <div
+      class="absolute min-w-[370px] rounded-lg md:w-1/2 lg:w-4/12 shadow-lg self-center top-16 bg-white pt-6"
+    >
+      <div
+        class="flex flex-col min-w-0 break-words justify-between bg-blueGray-200 border-0"
       >
         <div
-          class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden"
+          @click="conn = !conn"
+          class="font-semibold pointer-events cursor-pointer text-xl mx-8 self-end"
         >
-          <div class="px-7 bg-white-500 flex items-center justify-between">
-            <div>
-              <img
-                class="h-20 sm:h-20"
-                alt="Vue logo"
-                src="../assets/logo.png"
-              />
-            </div>
-            <div class="pr-20 md:hidden">
-              <button
-                class="text-white-500 w-30 h-20 relative focus:outline-none"
-                @click="open = !open"
-              >
-                <span class="sr-only">Open main menu</span>
-                <div
-                  class="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                >
-                  <span
-                    aria-hidden="true"
-                    class="block absolute h-1 w-7 rounded-xl bg-current transform transition duration-500 ease-in-out"
-                    :class="{ 'rotate-45': open, ' -translate-y-1.5': !open }"
-                  ></span>
-                  <span
-                    aria-hidden="true"
-                    class="block absolute h-1 w-7 rounded-xl bg-current raduid transform transition duration-500 ease-in-out"
-                    :class="{ 'opacity-0': open }"
-                  ></span>
-                  <span
-                    aria-hidden="true"
-                    class="block absolute h-1 w-7 rounded-xl bg-current transform transition duration-500 ease-in-out"
-                    :class="{ '-rotate-45': open, ' translate-y-1.5': !open }"
-                  ></span>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <div class="h-48 p-5 flex flex-col items-center justify-evenly">
-            <router-link to="/">Accueil</router-link>
-            <router-link to="/Contact">Réservez</router-link>
-            <router-link to="/Profil">
-              <span>Mes rendez-vous</span>
-            </router-link>
-            <router-link to="">
-              <span @click="logout()">{{ this.compte }}</span>
-            </router-link>
-            <router-link to="/Create">
-              <span>{{ this.compte }}</span>
-            </router-link>
-          </div>
-          <button class="conn-button text-black px-2">Connexion</button>
+          X
         </div>
-      </PopoverPanel>
-    </transition>
-  </Popover>
+        <connexion class="px-5"></connexion>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
 import search from "../../components/box/bar-search.vue";
+import connexion from "./login.vue";
 // import { MenuIcon, XIcon } from "@heroicons/vue/outline";
 
 export default {
   name: "AppHeader",
   components: {
     Popover,
-    PopoverButton,
-    PopoverPanel,
     search,
+    connexion,
   },
   data() {
     return {
       compte: "",
-      open: true,
+      open: false,
+      conn: false,
     };
   },
   created() {
@@ -158,13 +173,16 @@ export default {
     },
     logout() {
       localStorage.clear();
-      // history.back()
-      this.$router.push("/");
+      location.reload();
     },
   },
 };
 </script>
+
 <style>
+.tsrons {
+  background-color: rgba(0, 0, 0, 0.719);
+}
 .conn-button {
   /* padding: 5%; */
   background-color: white;
@@ -176,165 +194,3 @@ export default {
   font-weight: 600;
 }
 </style>
-
-<!-- <template>
-<Popover
-            focus
-            class="absolute z-10 top-0 inset-x-0 transition transform origin-top-right md:hidden"
-          >
-  <div class="header bg-sky-500 relative lg:p-4 sm:p-4 px-4 sm:px-6 lg:px-12">
-    <nav
-      class="relative font-semibold self-center text-white flex items-center justify-between sm:h-10"
-      aria-label="Global"
-    >
-      <div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-        <div class="flex items-center justify-between w-full md:w-auto">
-          <a href="#" id="ref">
-            <span class="sr-only">Workflow</span>
-            <img
-              id="logo"
-              class="h-24 sm:h-20"
-              src="../../assets/test.png"
-              alt="logo"
-            />
-          </a>
-          
-          <div class="-mr-2 flex items-center md:hidden">
-          
-          <Popover.Button
-            class="flex justify-between flex-col h-10  p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-          >
-              <span class="w-8 h-1 bg-white rounded-md "></span>
-              <span class="w-8 h-1 bg-white rounded-md"></span>
-              <span class="w-8 h-1 bg-white rounded-md"></span>
-          </Popover.Button>
-            <div class="-mr-2">
-              <Popover.Button
-                class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-              >
-                <span class="sr-only">Close main menu</span>
-                <XIcon
-                  class="h-6 w-6"
-                  aria-hidden="true"
-                  @click="showPopUp = false"
-                /> 
-               </Popover.Button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="hidden md:block md:ml-10 md:space-x-8">
-        <router-link to="/">Accueil</router-link>
-        <router-link to="/">
-          <span>Auteurs</span>
-        </router-link>
-        <router-link to="/">
-          <span>Mes rendez-vous</span>
-        </router-link>
-        <router-link to="">
-          <span @click="logout()">{{ this.compte }}</span>
-        </router-link>
-
-        <router-link to="/Create">
-          <span>{{ this.compte }}</span>
-        </router-link>
-      </div>
-      <button class="conn-button text-black px-2">Connexion</button>
-    </nav>
-  </div>
-
-    <div
-      class="rounded-lg shadow-md bg-sky-500 ring-1 ring-black ring-opacity-5 overflow-hidden"
-    >
-      <div class="px-7 w-full bg-white-500 flex items-center justify-between">
-        <div>
-          <img
-            class="h-20 sm:h-20"
-            alt="Vue logo"
-            src="../../assets/test.png"
-          />
-        </div>
-
-        <div class="-mr-2 bg-white flex items-center md:hidden">
-          <Popover.Button class="">
-            <span class="sr-only">Open main menu</span>
-            <MenuIcon class="h-6 w-6" aria-hidden="true" />
-          </Popover.Button>
-        </div>
-        <Popover.Button
-            class="flex justify-between flex-col  p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500"
-             @click="showPopUp = false"
-          >
-              <span class=" text-white rounded-md text-3xl font-bold ">X</span>
-          </Popover.Button>
-      </div>
-
-      <div
-        class="h-48 p-5 font-semibold flex flex-col items-center justify-evenly"
-      >
-        <router-link to="/">Accueil</router-link>
-        <router-link to="/">Réservez</router-link>
-        <router-link to="/">
-          <span>Mes rendez-vous</span>
-        </router-link>
-        <router-link to="">
-          <span @click="logout()">{{ this.compte }}</span>
-        </router-link>
-        <router-link to="/">
-          <span>{{ this.compte }}</span>
-        </router-link>
-      </div>
-    </div>
-  </Popover>
-</template>
-<script>
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
-// import { MenuIcon, XIcon } from "@heroicons/vue/outline";
-// import { AnnotationIcon, ArrowCircleUpIcon} from '@vue-hero-icons/outline'
-
-export default {
-  name: "Header",
-  components: {
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-    //MenuIcon,
-    //XIcon,
-  },
-  data() {
-    return {
-      compte: "",
-    };
-  },
-  created() {
-    this.popupShow();
-  },
-  methods: {
-    popupShow() {
-      if (localStorage["user-info"]) {
-        this.compte = "Se déconnecter";
-      } else {
-        this.compte = "Connexion";
-      }
-    },
-    logout() {
-      localStorage.clear();
-      // history.back()
-      this.$router.push("/");
-    },
-  },
-};
-</script>
-
-<style lang="css" scoped>
-.conn-button {
-  /* padding: 5%; */
-  background-color: white;
-  height: 40px;
-  width: 110px;
-  border: none;
-  border-radius: 8px;
-  color: --S-color;
-  font-weight: 600;
-}
-</style> -->

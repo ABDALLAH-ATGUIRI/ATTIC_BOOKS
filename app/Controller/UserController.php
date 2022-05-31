@@ -19,27 +19,41 @@ class userController
 
         $post = new Connexion();
         $data = json_decode(file_get_contents("php://input"));
-        $post->nome = $data->nome;
+        $post->nom = $data->nom;
         $post->prenom = $data->prenom;
-        $post->phone = $data->phone;
         $post->naissance = $data->naissance;
         $post->email = $data->email;
+        $post->password = $data->password;
+        $post->conpassword = $data->conpassword;
         if (
-            ($post->nome) &&
-            ($post->prenom) &&
-            ($post->phone) &&
-            ($post->naissance) &&
-            ($post->email)
+            $post->password == $post->conpassword
+            && preg_match("/^([a-zA-Z0-9-.]+)@([a-zA-Z0-9_-.]+).([a-zA-Z]{2,5})$/", $post->email)
+            && preg_match("/^[a-zA-Z0-9]*$/", $post->nom)
+            && preg_match("/^[a-zA-Z0-9]*$/", $post->prenom)
         ) {
-            if ($id = $post->create()) {
-                echo json_encode(
-                    array('id' => $id)
-                );
-            } else {
-                echo json_encode(
-                    array('message' => 'Post Not Created')
-                );
+
+            if (
+                ($post->nom) &&
+                ($post->prenom) &&
+                ($post->naissance) &&
+                ($post->email) &&
+                ($post->password)
+            ) {
+
+                if ($rep = $post->create()) {
+                    echo json_encode(
+                        array('message' => $rep)
+                    );
+                } else {
+                    echo json_encode(
+                        array('message' => $rep)
+                    );
+                }
             }
+        } else {
+            echo json_encode(
+                array('message' => 'Password is not correct')
+            );
         }
     }
 
@@ -68,7 +82,7 @@ class userController
                     'id' => $id
                 );
             }
-  
+
             echo json_encode($post_item);
         } else {
             echo json_encode(
@@ -77,25 +91,17 @@ class userController
         }
     }
 
-    public function read_single()
+    public function read_One()
     {
 
         $post = new Connexion();
-        $post->id = isset($_POST['id']) ? $_POST['id'] = md5($_POST['id']) : die();
-
-        $post->read_single();
-
-        $post_arr = array(
-            'Id_user' => $post->id,
-            'nome' => $post->nome,
-            'prenom' => $post->prenom,
-            'email' => $post->email,
-            'phone' => $post->phone,
-            'naissance' => $post->naissance,
-        );
-
-
-        echo json_encode($post_arr);
+        $data = json_decode(file_get_contents("php://input"));
+        if ($rep = $post->read_single($data->email)) {
+            if (password_verify($data->password, $rep['password'])) {
+                echo json_encode(
+                    $rep
+                );
+            }
+        };
     }
-
 }

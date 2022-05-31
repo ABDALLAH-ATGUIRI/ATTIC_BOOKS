@@ -1,21 +1,21 @@
 <template>
-  <div class="flex w-full  h-auto  lg:h-[400px] lg:mt-10">
-    <div class="bg-sky-500 relative w-5/6 rounded-lg mx-auto">
-      <div class="hidden lg:flex relative w-1/2">
+  <div class="flex w-full  h-auto  lg:h-[380px] mt-10 drop-shadow-2xl">
+    <div class="bg-sky-600 relative w-5/6 rounded-lg mx-auto">
+      <div class="hidden lg:flex relative w-1/2 ">
         <img
-          class="absolute max-w-1/2 left-[112%] -top-16"
+          class="absolute left-[117%] -top-20"
           src="../assets/image 1.png"
           alt=""
         />
       </div>
-      <div class="hidden lg:block">
+      <div class="hidden z-30  absolute lg:block md:rounded-lg w-3/4  bg-white bottom-10 lg:ml-16 ">
         <search></search>
       </div>
       <div class="w-full z-1 h-full relative">
         
 
         <div
-          class="top-20 lg:w-2/3 text-white text-xl pt-20 lg:px-20 px-10"
+          class="top-20 lg:w-2/3 text-white text-md pt-20 lg:px-20 px-10"
         >
           <h2 class="font-bold text-4xl lg:text-3xl pb-8">
             Bienvenue à ATTIC BOOKS

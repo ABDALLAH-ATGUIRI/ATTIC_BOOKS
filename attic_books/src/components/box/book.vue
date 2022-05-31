@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-full flex-nowrap">
+  <div class="flex justify-between w-full flex-nowrap drop-shadow-2xl">
     <div class="relative group w-48 mx-8 h-72 overflow-hidden bg-black m-auto">
       <img
         class="object-cover w-full h-full transform duration-700 backdrop-opacity-100"
