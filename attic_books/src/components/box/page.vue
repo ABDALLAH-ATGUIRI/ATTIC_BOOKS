@@ -17,6 +17,9 @@
               type="text"
               id="titre"
               class="border-2 p-2 text-sm font-medium"
+              maxlength="16"
+              v-model="title"
+              @change="addToCart()"
             />
           </div>
           <div class="flex flex-col pt-6">
@@ -30,6 +33,8 @@
             <textarea
               class="border-2 h-screen p-3 overflow-hidden text-sm"
               id="Description "
+              v-model="body"
+              @change="addToCart()"
             ></textarea>
           </div>
         </div>
@@ -37,3 +42,33 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data (){
+    return{
+      title : '',
+      body : '',
+      index : 1,
+    }
+  },
+  methods:{
+    addToCart(){
+      const item = {
+        title : this.title,
+        body : this.body,
+        index : this.index,
+      }
+      this.$store.commit('addCart' , item )
+    }
+  },
+  watch :{
+    title(){
+      this.addToCart()
+    },
+    body(){
+      this.addToCart()
+    }
+  }
+}
+</script>
