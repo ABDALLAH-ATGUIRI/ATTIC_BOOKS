@@ -13,14 +13,13 @@
 <script>
 // import { defineComponent } from '@vue/composition-api'
 // import { props } from "cypress/types/bluebird";
-import AddBook from "../AddBook.vue";
-// import Page  from "../box/page.vue";
+// import AddBook from "../AddBook.vue";
 
 export default {
   name: "Writing",
   props: ['item' , 'index'],
   component: {
-    AddBook,
+
   },
 
   data() {

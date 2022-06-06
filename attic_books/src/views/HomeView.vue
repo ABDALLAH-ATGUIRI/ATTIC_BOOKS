@@ -3,7 +3,7 @@
     <AppHeader />
   </nav>
   <main>
-    <section class="flex flex-col align-center justify-center lg:mt-20">
+    <section class="flex flex-col align-center justify-center lg:mt-28 z-40">
       <BienvenuVue />
     </section>
     <!-- <hr class="pt-20" /> -->

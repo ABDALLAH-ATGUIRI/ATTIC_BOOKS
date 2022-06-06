@@ -1,20 +1,5 @@
 <template>
-  <div
-    class="w-full fixed z-40 absolute bg-sky-600 h-20 top-0 pr-10 flex items-center justify-between"
-  >
-    <div class="pl-2 text-white flex items-center justify-evenly md:w-1/4">
-      <span class="font-bold text-4xl">&lang;</span>
-      <div class="flex flex-col text-center">
-        <span class="text-xs text-gray-300"
-          >Ajouter une description sur le livre
-        </span>
-        <span class="md:text-2xl font-bold tracking-widest"
-          >Livre sans titre</span
-        >
-      </div>
-    </div>
-  </div>
-  <!-- <AddBook /> -->
+  <HeaderBooK></HeaderBooK>
   <div
     class="w-1/4 top-0 z-4 fixed bg-slate-100 border-1 font-medium border-black flex flex-col divide-x-16"
   >
@@ -35,7 +20,7 @@
     <div class="px-4 pb-24 w-full h-screen overflow-y-scroll shadow-xl">
       <div>
         <WritingPageVue
-          v-bind:item ="item"
+          v-bind:item="item"
           v-bind:index="index"
           v-for="(item, index) in $store.state.items"
           :key="index"
@@ -57,6 +42,7 @@
 <script>
 import WritingPageVue from "../components/Global/WritingPage.vue";
 import Page from "../components/box/page.vue";
+import HeaderBooK from "../components/Global/HeaderBook.vue";
 export default {
   name: "WritingPage",
 
@@ -70,6 +56,7 @@ export default {
   components: {
     WritingPageVue,
     Page,
+    HeaderBooK,
   },
   data() {},
   setup() {},

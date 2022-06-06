@@ -17,27 +17,73 @@
           class="hidden md:flex pr-20 justify-end items-center"
           aria-label="Global"
         >
-          <div class="md:space-x-8 w-full justify-between">
+          <div class="md:space-x-8 w-full flex items-center justify-between">
             <router-link to="/">Accueil</router-link>
 
             <router-link to="/Write"> Nouveau livre </router-link>
-
-            <router-link to="/Profile"> Profil </router-link>
-            <router-link to="/"> ... </router-link>
+            <router-link to="/Details"> Nouveau livre </router-link>
+            <router-link to="#"> ... </router-link>
             <button
               @click="conn = !conn"
-              v-if="compte === 'Connexion'"
+              v-if="compte === false"
               class="conn-button w-auto text-black px-4"
             >
-              {{ this.compte }}
+              Connexion
             </button>
-            <button
-              v-else
-              @click="logout"
-              class="conn-button w-auto text-black px-4"
-            >
-              {{ this.compte }}
-            </button>
+
+            <div v-else class="m-0">
+              <div class="ml-3 relative">
+                <div>
+                  <MenuButton
+                    class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    @click="open_pro = !open_pro"
+                  >
+                    <span class="sr-only">Open user menu</span>
+                    <img
+                      class="h-12 w-12 rounded-full"
+                      src="../../assets/test.png"
+                      alt=""
+                    />
+                  </MenuButton>
+                </div>
+                <div
+                  enter-active-class="transition ease-out duration-100"
+                  enter-from-class="transform opacity-0 scale-95"
+                  enter-to-class="transform opacity-100 scale-100"
+                  leave-active-class="transition ease-in duration-75"
+                  leave-from-class="transform opacity-100 scale-100"
+                  leave-to-class="transform opacity-0 scale-95"
+                >
+                  <div
+                    class="origin-top-right absolute z-40 -right-12 mt-5 w-36 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    v-if="open_pro === true"
+                  >
+                    <div v-for="item in userNavigation" :key="item.name">
+                      <router-link
+                        :to="item.href"
+                        :class="[
+                          active ? 'bg-gray-100' : '',
+                          'block px-4 py-2 text-sm text-gray-700',
+                        ]"
+                        >{{ item.name }}</router-link
+                      >
+                    </div>
+                    <span
+                      @click="logout"
+                      class="block px-4 py-2 cursor-pointer text-sm text-red-700"
+                    >
+                      Se déconnecter
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- <button
+                
+                class="conn-button w-auto text-black px-4"
+              >
+                {{ this.compte }}
+              </button> -->
+            </div>
           </div>
         </nav>
         <div class="pr-20 md:hidden">
@@ -96,7 +142,7 @@
               alt=""
             />
           </router-link>
-          <button @click="conn = !conn" v-if="compte === 'Connexion'">
+          <button @click="conn = !conn" v-if="compte === false">
             <img
               class="w-12 shadow-xl"
               src="../../assets/icons/key.png"
@@ -140,11 +186,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import { Popover } from "@headlessui/vue";
 import search from "../../components/box/bar-search.vue";
 import connexion from "./login.vue";
-// import { MenuIcon, XIcon } from "@heroicons/vue/outline";
 
 export default {
   name: "AppHeader",
@@ -158,22 +202,27 @@ export default {
       compte: "",
       open: false,
       conn: false,
+      open_pro: false,
+      userNavigation: [
+        { name: "votre profil", href: "/Profile" },
+        // { name: "Settings", href: "#" },
+      ],
     };
   },
   created() {
-    this.popupShow();
+    this.com();
   },
   methods: {
-    popupShow() {
-      if (localStorage["user-info"]) {
-        this.compte = "Se déconnecter";
-      } else {
-        this.compte = "Connexion";
-      }
+    com() {
+      this.compte = this.$store.getters.popupShow;
     },
     logout() {
       localStorage.clear();
-      location.reload();
+
+      this.$store.commit("popupShow");
+
+      this.com();
+      
     },
   },
 };

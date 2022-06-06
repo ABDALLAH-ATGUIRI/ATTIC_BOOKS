@@ -8,7 +8,7 @@
           alt=""
         />
       </div>
-      <div class="hidden z-30  absolute lg:block md:rounded-lg w-3/4  bg-white bottom-10 lg:ml-16 ">
+      <div class="hidden z-20  absolute lg:block md:rounded-lg w-3/4  bg-white bottom-10 lg:ml-16 ">
         <search></search>
       </div>
       <div class="w-full z-1 h-full relative">

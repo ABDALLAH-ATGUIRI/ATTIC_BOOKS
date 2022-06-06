@@ -1,5 +1,7 @@
 <?php
 
+use function PHPSTORM_META\type;
+
 require __DIR__ . '/../Database/DB.php';
 
 class Connexion
@@ -14,6 +16,8 @@ class Connexion
     public $email;
     public $naissance;
     public $password;
+    public $pro_img;
+    public $bg_img;
 
     public function __construct()
     {
@@ -43,12 +47,12 @@ class Connexion
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(1, $id);
- 
+
         if ($stmt->execute()) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return $row;
-        };
+        }
     }
 
     public function create()
@@ -63,17 +67,37 @@ class Connexion
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->naissance = htmlspecialchars(strip_tags($this->naissance));
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
-
         $stmt->bindParam(1, $this->nom);
         $stmt->bindParam(2, $this->prenom);
-        $stmt->bindParam(4, $this->email);
         $stmt->bindParam(3, $this->naissance);
+        $stmt->bindParam(4, $this->email);
         $stmt->bindParam(5,  $this->password);
 
         if ($stmt->execute()) {
-            return  true;
+            return true;
         } else {
-            printf("Error: %s.\n", $stmt->error);
+            return false;
+        }
+    }
+
+    public function addImg()
+    {
+        $query = "UPDATE
+        `utilisateur`
+    SET
+        pro_image = :pro_img , 
+        bg_image = :bg_img
+    WHERE
+        id_utilisateur = :id ";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':pro_img', $this->pro_img);
+        $stmt->bindParam(':bg_img', $this->bg_img);
+        $stmt->bindParam(':id', $this->id_user);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
             return false;
         }
     }

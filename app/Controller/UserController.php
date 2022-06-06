@@ -11,6 +11,19 @@ class userController
         header("Access-Control-Allow-Headers: *");
     }
 
+    public function newImg()
+    {
+
+        $post = new Connexion();
+        $data = json_decode(file_get_contents("php://input"));
+
+        $post->pro_img = $data->pro_image ? $data->pro_image : NULL;
+        $post->bg_img = $data->bg_image ? $data->bg_image : NULL;
+        $post->id_user = $data->id_user;
+        echo json_encode(
+            $post->addImg($data)
+        );
+    }
 
 
     public function create()
@@ -27,7 +40,7 @@ class userController
         $post->conpassword = $data->conpassword;
         if (
             $post->password == $post->conpassword
-            && preg_match("/^([a-zA-Z0-9-.]+)@([a-zA-Z0-9_-.]+).([a-zA-Z]{2,5})$/", $post->email)
+            && filter_var($post->email, FILTER_VALIDATE_EMAIL)
             && preg_match("/^[a-zA-Z0-9]*$/", $post->nom)
             && preg_match("/^[a-zA-Z0-9]*$/", $post->prenom)
         ) {
@@ -40,56 +53,51 @@ class userController
                 ($post->password)
             ) {
 
-                if ($rep = $post->create()) {
-                    echo json_encode(
-                        array('message' => $rep)
-                    );
-                } else {
-                    echo json_encode(
-                        array('message' => $rep)
-                    );
-                }
-            }
-        } else {
-            echo json_encode(
-                array('message' => 'Password is not correct')
-            );
-        }
-    }
 
-    public function read()
-    {
-
-
-        $post = new Connexion();
-
-        $result = $post->read();
-
-        $num = $result->rowCount();
-
-        if ($num > 0) {
-
-            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-
-                extract($row);
-
-                $post_item = array(
-                    'nome' => $nome,
-                    'prenom' => $prenom,
-                    'email' => $email,
-                    'phone' => $phone,
-                    'naissance' => $naissance,
-                    'id' => $id
+                echo json_encode(
+                    $post->create()
                 );
             }
-
-            echo json_encode($post_item);
         } else {
             echo json_encode(
-                array('message' => 'No Posts Found')
+                false
             );
         }
     }
+
+    // public function read()
+    // {
+
+
+    //     $post = new Connexion();
+
+    //     $result = $post->read();
+
+    //     $num = $result->rowCount();
+
+    //     if ($num > 0) {
+
+    //         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+
+    //             extract($row);
+
+    //             $post_item = array(
+    //                 'nome' => $nome,
+    //                 'prenom' => $prenom,
+    //                 'email' => $email,
+    //                 'phone' => $phone,
+    //                 'naissance' => $naissance,
+    //                 'id' => $id
+    //             );
+    //         }
+
+    //         echo json_encode($post_item);
+    //     } else {
+    //         echo json_encode(
+    //             array('message' => 'No Posts Found')
+    //         );
+    //     }
+    // }
 
     public function read_One()
     {

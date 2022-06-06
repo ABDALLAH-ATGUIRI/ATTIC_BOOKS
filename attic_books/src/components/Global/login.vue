@@ -39,7 +39,7 @@
             class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
             placeholder="Email"
             v-model="email"
-            required = "required"
+            required="required"
           />
         </div>
         <div class="relative w-full mb-3">
@@ -48,7 +48,7 @@
             class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
             placeholder="Password"
             v-model="password"
-            required = "required"
+            required="required"
           />
         </div>
         <div>
@@ -124,7 +124,7 @@
               class="border-0 px-3 mr-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               placeholder="Prénom"
               v-model="f_name"
-              required = "required"
+              required="required"
             />
           </div>
           <div class="relative w-full mb-3">
@@ -133,7 +133,7 @@
               class="border-0 px-3 py-3 ml-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
               placeholder="Nom"
               v-model="l_name"
-              required = "required"
+              required="required"
             />
           </div>
         </div>
@@ -144,7 +144,7 @@
             class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
             placeholder="Email"
             v-model="email"
-            required = "required"
+            required="required"
           />
         </div>
         <div class="relative w-full mb-3">
@@ -153,7 +153,7 @@
             class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
             placeholder="Date d'anniversaire"
             v-model="naissance"
-            required = "required"
+            required="required"
           />
         </div>
         <div class="relative w-full mb-3">
@@ -162,7 +162,7 @@
             class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
             placeholder="Mot de pass"
             v-model="password"
-            required = "required"
+            required="required"
           />
         </div>
         <div class="relative w-full mb-3">
@@ -171,7 +171,7 @@
             class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
             placeholder="Confirmer mot de pass"
             v-model="conpassword"
-            required = "required"
+            required="required"
           />
         </div>
         <div class="text-center mt-6">
@@ -198,6 +198,7 @@
 
 <script>
 import axios from "axios";
+import router from "../../router";
 export default {
   data() {
     return {
@@ -230,7 +231,12 @@ export default {
         })
           .then((response) => {
             if (response.status == 200) {
-              alert(response.data);
+              if (response.data == true) {
+                alert("Le processus d'inscription s'est terminé avec succès");
+                return (this.conn = true);
+              } else {
+                alert("Ceci est l'email qui existe déjà");
+              }
             }
           })
           .catch((error) => {
@@ -257,8 +263,9 @@ export default {
             if (response.data) {
               localStorage.setItem("user-info", JSON.stringify(response.data));
               location.reload();
+
             } else {
-              alert("Vérifiez que l'e-mail ou le mot de passe est incorrect")
+              alert("Vérifiez que l'e-mail ou le mot de passe est incorrect");
             }
             // console.log(response.data);
           }
