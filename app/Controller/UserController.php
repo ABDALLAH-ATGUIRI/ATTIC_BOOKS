@@ -11,20 +11,6 @@ class userController
         header("Access-Control-Allow-Headers: *");
     }
 
-    public function newImg()
-    {
-
-        $post = new Connexion();
-        $data = json_decode(file_get_contents("php://input"));
-
-        $post->pro_img = $data->pro_image ? $data->pro_image : NULL;
-        $post->bg_img = $data->bg_image ? $data->bg_image : NULL;
-        $post->id_user = $data->id_user;
-        echo json_encode(
-            $post->addImg($data)
-        );
-    }
-
 
     public function create()
     {
@@ -65,43 +51,10 @@ class userController
         }
     }
 
-    // public function read()
-    // {
-
-
-    //     $post = new Connexion();
-
-    //     $result = $post->read();
-
-    //     $num = $result->rowCount();
-
-    //     if ($num > 0) {
-
-    //         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-
-    //             extract($row);
-
-    //             $post_item = array(
-    //                 'nome' => $nome,
-    //                 'prenom' => $prenom,
-    //                 'email' => $email,
-    //                 'phone' => $phone,
-    //                 'naissance' => $naissance,
-    //                 'id' => $id
-    //             );
-    //         }
-
-    //         echo json_encode($post_item);
-    //     } else {
-    //         echo json_encode(
-    //             array('message' => 'No Posts Found')
-    //         );
-    //     }
-    // }
+    ######################################################################################################################
 
     public function read_One()
     {
-
         $post = new Connexion();
         $data = json_decode(file_get_contents("php://input"));
         if ($rep = $post->read_single($data->email)) {
@@ -111,5 +64,35 @@ class userController
                 );
             }
         };
+    }
+
+    public function ImgProfile()
+    {
+        $post = new Connexion();
+
+        $post->pro_img = $_POST['profile'];
+        $post->id_user = $_POST['id_user'];
+
+        if ($post->pro_img && $post->id_user) {
+
+            echo json_encode(
+                $post->profile()
+            );
+        }
+    }
+
+    public function ImgBackground()
+    {
+        $post = new Connexion();
+
+        $post->bg_img = $_POST['Background'];
+        $post->id_user = $_POST['id_user'];
+
+        if ($post->bg_img && $post->id_user) {
+
+            echo json_encode(
+                $post->Background()
+            );
+        }
     }
 }

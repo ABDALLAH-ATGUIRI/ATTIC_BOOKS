@@ -49,17 +49,11 @@ export default {
     return{
       title : '',
       body : '',
-      index : 1,
     }
   },
   methods:{
     addToCart(){
-      const item = {
-        title : this.title,
-        body : this.body,
-        index : this.index,
-      }
-      this.$store.commit('addCart' , item )
+      
     }
   },
   watch :{

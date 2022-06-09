@@ -7,7 +7,7 @@
        &LeftArrow;
       </div>
       <div class="w-full">
-        <div class="overflow-x-scroll flex">
+        <div class="overflow-x-scroll flex gap-12">
           <book></book>
           <book></book>
           <book></book>

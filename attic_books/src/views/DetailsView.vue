@@ -16,23 +16,31 @@
         <div class="w-1/5 min-w-[250px] mt-24 mx-auto">
           <label
             for="image"
-            class="bg-gray-300 h-[400px] rounded-sm hover-shadow-lg flex py-8 items-center justify-around"
+            class="bg-gray-300 relative h-[400px] hover-shadow-lg rounded-md flex items-center justify-around"
           >
-            <div class="flex flex-col items-center">
-              <img src="../assets/icons/add-image.png" class="w-14" alt="" />
+            <img
+              class="h-full rounded-md w-full"
+              :src="'/src/assets/uploads/' + couverture"
+              alt=""
+            />
+            <div class="absolute flex z-40 flex-col items-center">
+              <img src="../assets/uploads/add-image.png" class="w-14" alt="" />
               <span class="text-xs">Ajouter une couverture</span>
             </div>
           </label>
-          <input type="file" hidden id="image" />
+
+          <input
+            type="file"
+            hidden
+            id="image"
+            multiple
+            @change="uploadImage($event, index)"
+            required
+          />
         </div>
         <div
           class="md:w-3/5 w-11/12 h-full mx-auto pt-20 h-screen flex flex-col justify-around"
         >
-          <!-- <div class="flex flex-col">
-            <label for="Personnages" class="pb-5">Personnages Principaux <span class="bg-gray-400 w-20 px-2 font-extrabold rounded-full text-white text-xs ">!</span></label>
-            <input type="text" class="w-11/12 border-4 p-3" id="Personnages" />
-          </div> -->
-
           <div class="md:flex justify-between w-full">
             <div class="flex flex-col md:w-1/2 md-mr-5">
               <label for="Catégorie " class="pb-5 f"
@@ -47,17 +55,20 @@
                 id="Catégorie"
                 class="border-2 p-2 text-sm font-medium"
                 v-model="Category"
+                required
               >
                 <option value="">Catégorie</option>
-                <option value="">POÉSIE</option>
-                <option value="">FICTION HISTORIQUE</option>
-                <option value="">CLASSIQUE</option>
-                <option value="">AMOUR</option>
-                <option value="">DRAME</option>
-                <option value="">HORREUR</option>
-                <option value="">ARTS</option>
-                <option value="">LITTÉRATURE D'AFFAIRES</option>
-                <option value="">CONTE DE FÉE</option>
+                <option value="POÉSIE">POÉSIE</option>
+                <option value="FICTION HISTORIQUE">FICTION HISTORIQUE</option>
+                <option value="CLASSIQUE">CLASSIQUE</option>
+                <option value="AMOUR">AMOUR</option>
+                <option value="DRAME">DRAME</option>
+                <option value="HORREUR">HORREUR</option>
+                <option value="ARTS">ARTS</option>
+                <option value="LITTÉRATURE D'AFFAIRES">
+                  LITTÉRATURE D'AFFAIRES
+                </option>
+                <option value="CONTE DE FÉE">CONTE DE FÉE</option>
               </select>
             </div>
             <div class="flex flex-col md:w-1/2 md:ml-5">
@@ -73,17 +84,19 @@
                 id="Langue"
                 class="border-2 p-2 text-sm font-medium"
                 v-model="Language"
+                required
               >
-                <option value="" class="hiddend">Catégorie</option>
-                <option value="">POÉSIE</option>
-                <option value="">FICTION HISTORIQUE</option>
-                <option value="">CLASSIQUE</option>
-                <option value="">AMOUR</option>
-                <option value="">DRAME</option>
-                <option value="">HORREUR</option>
-                <option value="">ARTS</option>
-                <option value="">LITTÉRATURE D'AFFAIRES</option>
-                <option value="">CONTE DE FÉE</option>
+                <option value="POÉSIE">POÉSIE</option>
+                <option value="FICTION HISTORIQUE">FICTION HISTORIQUE</option>
+                <option value="CLASSIQUE">CLASSIQUE</option>
+                <option value="AMOUR">AMOUR</option>
+                <option value="DRAME">DRAME</option>
+                <option value="HORREUR">HORREUR</option>
+                <option value="ARTS">ARTS</option>
+                <option value="LITTÉRATURE D'AFFAIRES">
+                  LITTÉRATURE D'AFFAIRES
+                </option>
+                <option value="CONTE DE FÉE">CONTE DE FÉE</option>
               </select>
             </div>
           </div>
@@ -100,12 +113,21 @@
               id="Lectora"
               class="border-2 p-2 text-sm font-medium"
               v-model="Target"
+              required
             >
-              <option value="">Quel est votre public principal ?</option>
-              <option value="">Enfant (8-13 ans)</option>
-              <option value="">Young Adult/Ados (13-18 ans)</option>
-              <option value="">New Adult/Jeunes Adultes (18-25 ans)</option>
-              <option value="">Adultes (plus de 25 ans)</option>
+              <option value="Quel est votre public principal ?">
+                Quel est votre public principal ?
+              </option>
+              <option value="Enfant (8-13 ans)">Enfant (8-13 ans)</option>
+              <option value="Young Adult/Ados (13-18 ans)">
+                Young Adult/Ados (13-18 ans)
+              </option>
+              <option value="New Adult/Jeunes Adultes (18-25 ans)">
+                New Adult/Jeunes Adultes (18-25 ans)
+              </option>
+              <option value="Adultes (plus de 25 ans)">
+                Adultes (plus de 25 ans)
+              </option>
             </select>
           </div>
           <div class="flex flex-col">
@@ -121,6 +143,7 @@
               id="titre"
               class="border-2 p-2 text-sm font-medium"
               v-model="Title"
+              required
             />
           </div>
           <div class="flex flex-col">
@@ -136,6 +159,7 @@
               id="Description "
               maxlength="600"
               v-model="Description"
+              required
             ></textarea>
           </div>
         </div>
@@ -143,14 +167,10 @@
       <div
         class="w-5/6 lg:w-1/2 text-sm lg:mr-[108px] mx-auto flex justify-between text-white py-10"
       >
+        <Annuler></Annuler>
         <button
-          class="bg-white font-semibold p-2 font-medium px-6 rounded-md bg-red-600"
-        >
-          Annuler
-        </button>
-        <button
-          class="bg-white font-semibold p-2 font-medium px-6 rounded-md bg-sky-600"
           @click="AddBook"
+          class="font-semibold p-2 font-medium px-6 rounded-md bg-sky-600"
         >
           Passer
         </button>
@@ -164,56 +184,80 @@
 <script>
 // import { defineComponent } from '@vue/composition-api'
 import HeaderBook from "../components/Global/HeaderBook.vue";
+import Annuler from "../components/box/botton_annuler.vue";
+import axios from "axios";
 export default {
   name: "",
-  data()
-  {
-return {
-Category: '',
-Language: '',
-Target: '',
-Title: '',
-Description: '',
-
-};
-  },
-    components: {
+  components: {
     HeaderBook,
+    Annuler,
   },
-  setup() {},
-  methods: {
-    AddBook() {
-      e.preventDefault();
+  data() {
+    return {
+      Category: "",
+      Language: "",
+      Target: "",
+      Title: "",
+      Description: "",
+      couverture: "",
+      id_user: localStorage["id_user"],
+    };
+  },
 
-      if (this.password == this.conpassword) {
-        await axios({
-          method: "post",
-          url: "http://attic.local/user/create",
-          data: {
-           Category: this.Category,
-            Language: this.Language,
-            Target: this.Target,
-            Title: this.Title,
-            Description: this.Description
-          },
-          headers: { "Content-Type": "multipart/raw" },
+  methods: {
+    uploadImage(evt, index) {
+      let formData = new FormData();
+      let imgFile = evt.target.files[0];
+
+      if (imgFile === undefined) return null;
+
+      let ext = imgFile.name.split(".").pop();
+      if (ext == "jpg" || ext == "png" || ext == "jpeg") {
+        let uniqName =
+          Math.floor(Math.random() * Math.pow(10, 10)).toString() + "." + ext;
+
+        formData.append("uniqName", uniqName);
+        formData.append("avatar", imgFile);
+
+        axios({
+          method: "POST",
+          url: "http://attic.local/Includes/uploads",
+          data: formData,
+          headers: { "Content-Type": "multipart/form-data" },
         })
           .then((response) => {
-            if (response.status == 200) {
-              if (response.data == true) {
-                alert("Le processus d'inscription s'est terminé avec succès");
-                return (this.conn = true);
-              } else {
-                alert("Ceci est l'email qui existe déjà");
-              }
+            if (response.status === 200) {
+              this.couverture = uniqName;
             }
           })
-          .catch((error) => {
-            alert(error.status);
-          });
+          .catch(console.error);
       } else {
-        alert("mot de pass ne pas correct");
+        alert("Vous ne pouvez pas télécharger ce fichier");
       }
+    },
+    async AddBook() {
+      let bodyFormData = new FormData();
+      bodyFormData.append("category_book", this.Category);
+      bodyFormData.append("Langage", this.Language);
+      bodyFormData.append("classification", this.Target);
+      bodyFormData.append("titre_book", this.Title);
+      bodyFormData.append("Description", this.Description);
+      bodyFormData.append("couverture", this.couverture);
+      bodyFormData.append("id_user", this.id_user);
+
+      await axios({
+        method: "POST",
+        url: "http://attic.local/Book/create_book",
+        data: bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((response) => {
+          if (response.status == 200) {
+            localStorage.setItem("Id_book", response.data);
+            this.$router.push("/Write");
+          }
+        })
+        .catch((error) => {});
     },
   },
 };

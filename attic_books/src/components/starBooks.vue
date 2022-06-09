@@ -1,43 +1,66 @@
 <template>
-  <div class="flex flex-col md:flex-row w-10/12 items-center justify-center">
-    <div class="h-1/2 lg:w-1/2 drop-shadow-2xl">
-      <book class="self-center" />
+  <div
+    class="flex lg:flex-row snap-center snap-always flex-col items-center justify-around max-h-screen h-full py-12"
+  >
+    <div class="lg:w-1/3 drop-shadow-2xl">
+      <div class="flex justify-start items-center w-full drop-shadow-2xl">
+        <div
+          class="relative group w-32 h-48 md:w-48 mx-8 md:h-72 overflow-hidden bg-black m-auto"
+        >
+          <img
+            class="object-cover w-full h-full transform duration-700 backdrop-opacity-100"
+            :src="`/src/assets/uploads/` + coverture"
+          />
+        </div>
+      </div>
     </div>
 
-    <div class="flex flex-col  max-h-screen pt-10 justify-around text-white">
-      <p class="md:text-md text-sm leading-6">
-        Le narrateur, un jeune enfant, décrit la vie et les relations parfois
-        compliquées des membres d'une famille regroupée autour de sa grand-tante
-        Félicie, sur un vaste domaine terrien du sud de la Touraine dans les
-        années qui suivent la guerre franco-allemande de 1870. Le narrateur, un
-        jeune enfant, décrit la vie et les relations parfois compliquées des
-        membres d'une famille regroupée autour de sa grand-tante Félicie, sur un
-        vaste domaine terrien du sud de la Touraine dans les années qui suivent
-        la guerre franco-allemande de 1870.
+    <div
+      class="flex flex-col max-h-screen lg:px-10 h-full mt-10 lg:mt-0 justify-around text-white"
+    >
+      <h1
+        class="capitalize font-serif font-bold text-xl md:text-3xl text-center text-white mb-5"
+      >
+        {{ title }}
+      </h1>
+      <p class="md:text-md text-sm max-w-[600px] leading-6">
+        {{ description }}
       </p>
       <div
-        class="flex flex-col w-full gap-8 pt-6 items-center lg:flex-row justify-between"
+        class="flex flex-col w-full gap-8 pt-6 items-center md:flex-row justify-between"
       >
-        <div class="flex w-64 text-sm justify-between">
-          <div class="flex justify-evenly items-center w-1/4">
+        <router-link :to="'/Profile/?Author='+Id_user" class="flex justify-center items-center">
+          <div class="w-10 h-10">
             <img
-              class="w-5"
-              src="../assets/icons/vision-partagee (1).png"
+              class="rounded-full w-full h-full"
+              :src="`/src/assets/uploads/` + profile"
               alt=""
             />
-            <span>40M</span>
           </div>
-          <div class="flex justify-evenly items-center w-1/4">
-            <img class="w-4" src="../assets/icons/favori.png" alt="" />
-            <span>25M</span>
+          <span class="text-nowrap text-md text-gray-300 font-bold w-48"
+            >&nbsp;&nbsp;{{ Author }}</span
+          >
+        </router-link>
+        
+          <div class="flex justify-between w-36 items-center">
+            <div class="flex justify-between 1/3 items-center">
+              <img
+                class="w-6"
+                src="../assets/icons/vision-partagee (1).png"
+                alt=""
+              />
+              <span>40M</span>
+            </div>
+            <div class="flex justify-between 1/3 items-center">
+              <img class="w-5" src="../assets/icons/favori.png" alt="" />
+              <span>25M</span>
+            </div>
           </div>
-          <div class="flex justify-evenly items-center w-1/3">
-            <span class="">par&nbsp;:&nbsp;@AyaAria</span>
-          </div>
-        </div>
+        
+
         <button class="flex items-center cta text-white">
-          <span class="hover-underline-animation text-white text-sm">
-            plus de détails &RightArrow;</span
+          <span class="hover-underline-animation text-white text-md">
+            plus&nbsp;de&nbsp;détails&nbsp;&RightArrow;</span
           >
         </button>
       </div>
@@ -46,15 +69,21 @@
 </template>
 
 <!-- **************************************************************************************************************************************** -->
-
 <script>
-import book from "./box/book.vue";
-
 export default {
-  name: "Suggestions",
-  components: {
-    book,
-  },
+  name: "starBooks",
+  props: [
+    "title",
+    "coverture",
+    "category",
+    "Id_book",
+    "classification",
+    "description",
+    "Author",
+    "profile",
+    "Id_user"
+  ],
+  setup() {},
 };
 </script>
 
@@ -82,7 +111,7 @@ export default {
 
 .hover-underline-animation {
   position: relative;
-  padding-bottom: 6px;
+  /* padding-bottom: 5px; */
 }
 
 .hover-underline-animation:after {
@@ -93,7 +122,7 @@ export default {
   height: 1.5px;
   bottom: 0;
   left: 0;
-  background-color: rgb(194 65 12);
+  background-color: rgb(0, 0, 0);
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }

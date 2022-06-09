@@ -19,9 +19,8 @@
         >
           <div class="md:space-x-8 w-full flex items-center justify-between">
             <router-link to="/">Accueil</router-link>
-
-            <router-link to="/Write"> Nouveau livre </router-link>
             <router-link to="/Details"> Nouveau livre </router-link>
+            <router-link to="/Search"> Chercher </router-link>
             <router-link to="#"> ... </router-link>
             <button
               @click="conn = !conn"
@@ -41,7 +40,7 @@
                     <span class="sr-only">Open user menu</span>
                     <img
                       class="h-12 w-12 rounded-full"
-                      src="../../assets/test.png"
+                      :src="'/src/assets/uploads/' + image"
                       alt=""
                     />
                   </MenuButton>
@@ -121,46 +120,61 @@
         :class="{ ' -translate-y-72': !open, ' h-0': !open }"
       >
         <div class="p-5 flex text-white font-bold items-center justify-evenly">
-          <router-link to="/">
+          <router-link to="/" class="w-1/4 flex justify-center">
             <img
               class="w-12 shadow-xl"
               src="../../assets/icons/home.png"
-              alt=""
+              alt="Home"
             />
           </router-link>
-          <router-link to="/Contact">
-            <img
-              class="w-12 shadow-xl"
-              src="../../assets/icons/writing.png"
-              alt=""
-            />
-          </router-link>
-          <router-link class="w-12" to="/Profil">
+
+          <!-- <router-link class="w-12" to="/Profil">
             <img
               class="w-12 shadow-xl"
               src="../../assets/icons/user.png"
               alt=""
             />
-          </router-link>
-          <button @click="conn = !conn" v-if="compte === false">
+          </router-link> -->
+          <button
+            @click="conn = !conn"
+            v-if="compte === false"
+            class="w-1/4 flex justify-center"
+          >
             <img
               class="w-12 shadow-xl"
               src="../../assets/icons/key.png"
               alt=""
             />
           </button>
-          <button @click="logout" v-else>
-            <img
-              class="w-12 shadow-xl"
-              src="../../assets/icons/exit.png"
-              alt=""
-            />
-          </button>
+          <div v-else class="flex w-3/4 justify-around">
+            <router-link to="/Details" class="w-1/3 flex justify-center">
+              <img
+                class="w-12 shadow-xl"
+                src="../../assets/icons/writing.png"
+                alt="write"
+              />
+            </router-link>
+            <router-link to="/Profile" class="w-1/3">
+              <img
+                class="h-14 w-14 bg-gray-500 rounded-full"
+                :src="'/src/assets/uploads/' + image"
+                alt="Profil"
+              />
+            </router-link>
+
+            <button @click="logout" class="1/3">
+              <img
+                class="w-12 shadow-xl"
+                src="../../assets/icons/exit.png"
+                alt="logout"
+              />
+            </button>
+          </div>
         </div>
       </div>
-      <div class="drop-shadow-lg">
+      <!-- <div class="drop-shadow-lg">
         <search></search>
-      </div>
+      </div> -->
     </div>
   </Popover>
   <div
@@ -189,6 +203,7 @@
 import { Popover } from "@headlessui/vue";
 import search from "../../components/box/bar-search.vue";
 import connexion from "./login.vue";
+import router from "../../router";
 
 export default {
   name: "AppHeader",
@@ -203,6 +218,7 @@ export default {
       open: false,
       conn: false,
       open_pro: false,
+      image: localStorage["pro_image"],
       userNavigation: [
         { name: "votre profil", href: "/Profile" },
         // { name: "Settings", href: "#" },
@@ -220,9 +236,8 @@ export default {
       localStorage.clear();
 
       this.$store.commit("popupShow");
-
+      router.push({ path: "/" });
       this.com();
-      
     },
   },
 };

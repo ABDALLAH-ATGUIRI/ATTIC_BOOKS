@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 require __DIR__ . '/../Database/DB.php';
 
 class Connexion
@@ -18,6 +16,7 @@ class Connexion
     public $password;
     public $pro_img;
     public $bg_img;
+    public $id_user;
 
     public function __construct()
     {
@@ -80,18 +79,29 @@ class Connexion
         }
     }
 
-    public function addImg()
+
+    public function Profile()
     {
-        $query = "UPDATE
-        `utilisateur`
-    SET
-        pro_image = :pro_img , 
-        bg_image = :bg_img
-    WHERE
-        id_utilisateur = :id ";
+        $query = "UPDATE $this->table SET pro_image = ? WHERE id_utilisateur = ? ";
+
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(':pro_img', $this->pro_img);
+        $stmt->bindParam(1, $this->pro_img);
+        $stmt->bindParam(2, $this->id_user);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function Background()
+    {
+        $query = "UPDATE $this->table SET bg_image = :bg_img WHERE id_utilisateur = :id ";
+
+        $stmt = $this->conn->prepare($query);
+
         $stmt->bindParam(':bg_img', $this->bg_img);
         $stmt->bindParam(':id', $this->id_user);
 

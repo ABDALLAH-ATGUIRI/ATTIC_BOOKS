@@ -1,76 +1,84 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
-<template v-if="compte == true">
+<template >
   <nav>
     <AppHeader />
   </nav>
-  <div class="relative">
-    <div class="w-full relative h-72">
+
+  <ProfileImage v-if="$store.state.showImgPopup"></ProfileImage>
+  <BackgroundImage v-if="$store.state.showImgPopupbg"></BackgroundImage>
+  <div class="flex">
+    <div class="w-full bg-gray-200 h-64">
       <img
         class="w-full h-full"
-        src="../assets/benjamin-voros-phIFdC6lA4E-unsplash.jpg"
+        :src="'/src/assets/uploads/' + bg_img"
         alt=""
       />
-      <label for="bg-img" class="absolute w-12 right-0 bottom-0">
-        <img src="../assets/icons/add-image.png" alt="" />
-      </label>
-      <input type="file" name="" id="bg-img" :value="bg_img" hidden />
+      <button
+        v-if="who"
+        @click="$store.commit('bgPopup')"
+        class="absolute z-30 w-10 right-0 top-72"
+      >
+        <img src="../assets/uploads/add-image.png" alt="" />
+      </button>
     </div>
-    <div class="h-48 absolute top-12 w-full flex flex-col justify-center">
-      <div class="self-center h-full flex flex-col justify-evenly items-center">
+    <div class="h-48 absolute left-[40vw] right-[40vw] top-32 mx-auto flex flex-col justify-center">
+      <div class=" h-full flex flex-col justify-evenly items-center">
         <div class="relative w-28 h-28">
           <img
-            class="rounded-full w-full h-full"
-            src="../assets/icons/user.png"
+            class="rounded-full bg-gray-500 w-full h-full"
+            :src="'/src/assets/uploads/' + pro_img"
             alt="photo profile"
           />
-          <label for="profil-img" class="absolute w-7 -right-0 bottom-2">
-            <img src="../assets/icons/add-image.png" alt="" />
-          </label>
-          <input type="file" id="profil-img" :value="pro_img" hidden />
+          <button
+            v-if="who"
+            @click="$store.commit('toggle')"
+            class="absolute w-6 -right-0 bottom-2"
+          >
+            <img src="../assets/uploads/add-image.png" alt="" />
+          </button>
         </div>
-        <div class="text-gray-400 font-bold">
-          <span>@Abdallah Atguiri</span>
+        <div class="text-gray-800 text-xl font-bold">
+          <span>@{{ f_name }}&nbsp;-&nbsp;{{ l_name }}</span>
         </div>
       </div>
     </div>
   </div>
-  <div class="w-full flex h-36 items-center justify-evenly">
+  <div
+    class="w-full lg:text-[16px] flex h-36 text-xs items-center justify-evenly"
+  >
     <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 py-3 active:bg-sky-600 active:text-white"
+      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 p-3 active:bg-sky-600 active:text-white"
     >
       Mes lectures
     </div>
     <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 py-3 active:bg-sky-600 active:text-white"
+      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 p-3 active:bg-sky-600 active:text-white"
     >
       Mes livres
     </div>
     <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 py-3 active:bg-sky-600 active:text-white"
+      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-md lg:w-44 p-3 active:bg-sky-600 active:text-white"
     >
       Liste de souhaits
     </div>
     <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 py-3 active:bg-sky-600 active:text-white"
+      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 p-3 active:bg-sky-600 active:text-white"
     >
       Mon classement
     </div>
   </div>
-  <!-- <footer>
-    <Footer />
-  </footer> -->
+  <div class="mt-10">
+    <myBooks :Author="id_user" />
+  </div>
 </template>
 
 <script>
-import BienvenuVue from "../components/Bienvenu.vue";
-import CategoriesVue from "../components/Categories.vue";
-import stareBook from "../components/starBooks.vue";
-import Suggestions from "../components/Suggestions.vue";
-import Favoris from "../components/Favoris.vue";
-import Auteurs from "../components/Auteurs.vue";
 import AppHeader from "../components/Global/Header.vue";
-import Footer from "../components/Global/Footer.vue";
-import router from "../router";
+import BackgroundImage from "../components/box/background_img.vue";
+import ProfileImage from "../components/box/user_img.vue";
+import axios from "axios";
+import MyBooks from "../components/MyBooks.vue";
+import router from '../router';
 
 export default {
   name: "home",
@@ -78,74 +86,76 @@ export default {
     return {
       pro_img: "",
       bg_img: "",
-      compte: "",
+      f_name: "",
+      l_name: "",
+      id_user: localStorage["id_user"],
+      who : true ,
+      showImgPopup: 0,
+      showImgPopupbg: 0,
     };
   },
   components: {
-    BienvenuVue,
-    CategoriesVue,
-    stareBook,
-    Suggestions,
-    Favoris,
-    Auteurs,
     AppHeader,
-    Footer,
+    BackgroundImage,
+    ProfileImage,
+    MyBooks,
   },
   mounted() {
-    this.com();
+    this.com() ;
+    if (this.$route.query.Author) {
+      this.id_user = this.$route.query.Author;
+      this.who = false ;
+      this.Author();
+    } else {
+      this.userInfo();
+    }
+  },
+  computed: {
+    showImgPopup() {
+      return this.$store.state.showImgPopup;
+    },
+    showImgPopupbg() {
+      return this.$store.state.showImgPopupbg;
+    },
   },
   methods: {
-    com() {
-      this.compte = this.$store.getters.popupShow;
-      if (this.compte === false) {
-        router.push({ path: "/" });
-      }
+    userInfo() {
+      this.f_name = localStorage["f_name"];
+      this.l_name = localStorage["l_name"];
+      this.pro_img = localStorage["pro_image"];
+      this.bg_img = localStorage["bg_image"];
     },
-    uploadImage(ele) {
-      formData = new FormData();
-      imgFile = ele.files[0];
-      if (imgFile === undefined) return null;
-
-      ext = imgFile.name.split(".").pop();
-      uniqName =
-        Math.floor(Math.random() * Math.pow(10, 10)).toString() + "." + ext;
-      formData.append("uniqName", uniqName);
-      formData.append("avatar", imgFile);
-
-      fetch("attic.local/Includes/upload.php", {
+    async Author() {
+      let formdata = new FormData();
+      formdata.append("id_user", this.id_user);
+      await axios({
         method: "post",
-        body: formData,
-      }).catch(console.error);
-
-      return uniqName;
+        url: "http://attic.local/Authors/Author",
+        data: formdata,
+        headers: { "Content-Type": "multipart/raw" },
+      })
+        .then((response) => {
+          if (response.status == 200) {
+            if (response.data) {
+              this.pro_img = response.data["pro_image"];
+              this.bg_img = response.data["bg_image"];
+              this.f_name = response.data["f_name"] ;
+              this.l_name = response.data["l_name"];
+            } else {
+              router.push({ path: "/" });
+            }
+          }
+        })
+        .catch((error) => {
+          window.history.back();
+        });
     },
-    changeImage() {
-      let postImage = uploadImage();
-
-      let myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-
-      let raw = JSON.stringify({
-        doctor_id: sessionStorage.getItem("doctorIndex"),
-        category_id: document.getElementById("categories").value,
-        title: document.getElementById("title").value,
-        body: CKEDITOR.instances.content.getData(),
-        image: postImage,
-        resources: document.getElementById("source").value,
-        dislikeControle: document.getElementById("likeControle").value,
-        commentControle: document.getElementById("comControle").value,
-      });
-
-      let requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-      };
-
-      fetch("http://localhost/fileRouge/post/insertPost", requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
+    com() {
+      this.who = this.$store.getters.popupShow;
+      if(this.who != true)
+      {
+        router.push({path : '/'})
+      }
     },
   },
 };

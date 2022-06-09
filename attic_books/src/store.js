@@ -2,35 +2,57 @@ import { createStore } from "vuex";
 
 export const store = createStore({
   state: {
-    items: [],
+    carts: [
+      {
+        title: "",
+        body: "",
+      },
+    ],
+
+    showImgPopup: false,
+    showImgPopupbg: false,
+    count: 0,
+    title: "",
+    category: "",
+    author: "",
   },
-  data() {
-    return {
-    };
-  },
+
   getters: {
     popupShow() {
-      if (localStorage["user-info"]) {
+      if (localStorage["id_user"]) {
         return true;
       }
-     
-      return false; 
+
+      return false;
     },
-    popupConn(x)
-    {
-      x = !x
-    }
+    // popupConn(x)
+    // {
+    //   x = !x
+    // },
   },
   mutations: {
     addCart(state, item) {
-      const exist = state.items.filter((ele) => ele.count === item.count);
-      if (exist.length) {
-        state.items = state.items.filter((ele) => ele.count !== item.count);
-
-        state.items.push(item);
-      } else {
-        state.items.push(item);
-      }
+      item.body != "" ? (state.carts[state.count - 1].body = item.body) : "";
+      item.title != "" ? (state.carts[state.count - 1].title = item.title) : "";
+    },
+    incrementCount() {
+      this.state.count = this.state.count + 1;
+      const item = {
+        title: "vide",
+        body: "vide",
+      };
+      this.state.carts.push(item);
+    },
+    toggle(state) {
+      state.showImgPopup = !state.showImgPopup;
+    },
+    bgPopup(state) {
+      state.showImgPopupbg = !state.showImgPopupbg;
+    },
+    search(state, item) {
+      title != "" ? (state.title = item.title) : "";
+      category != "" ? (state.category = item.category) : "";
+      author != "" ? (state.author = item.author) : "";
     },
   },
 });

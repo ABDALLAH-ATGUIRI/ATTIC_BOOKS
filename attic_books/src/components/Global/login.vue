@@ -261,9 +261,16 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             if (response.data) {
-              localStorage.setItem("user-info", JSON.stringify(response.data));
-              location.reload();
+              // localStorage.setItem("user-info", JSON.stringify(response.data));
+              localStorage.setItem("id_user", response.data.id_utilisateur);
+              localStorage.setItem("email", response.data.email);
+              localStorage.setItem("f_name", response.data.f_name);
+              localStorage.setItem("l_name", response.data.l_name);
+              localStorage.setItem("naissance", response.data.naissance);
+              localStorage.setItem("pro_image", response.data.pro_image);
+              localStorage.setItem("bg_image", response.data.bg_image);
 
+              location.reload();
             } else {
               alert("Vérifiez que l'e-mail ou le mot de passe est incorrect");
             }
