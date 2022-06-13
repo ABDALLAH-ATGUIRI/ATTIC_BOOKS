@@ -1,16 +1,18 @@
 <template>
   <form
-    class="md:rounded-lg h-36 w-11/12 mx-auto md:h-auto py-4 grid grid-rows-2 grid-cols-2  gap-4 lg:flex md:flex-row flex-col justify-between align-center"
+    class="md:rounded-lg h-36 w-11/12 mx-auto md:h-auto py-4 grid grid-rows-2 grid-cols-2 gap-4 lg:flex md:flex-row flex-col justify-between align-center"
   >
-    <div class="relative col-span-2 w-full grid-col-1 flex lg:w-2/5 w-full justify-center md:justify-start text-white">
+    <div
+      class="relative col-span-2 w-full grid-col-1 flex lg:w-2/5 w-full justify-center md:justify-start text-black"
+    >
       <input
         aria-label="search"
         type="search"
         id="search"
         placeholder="Trouvez votre livre"
         class="w-full bg-gray-200 transition border border-transparent focus:outline-none focus:border-sky-500 rounded py-3 px-2 pl-10 appearance-none leading-normal"
-        @change="search"
-        v-model="this.$state.title"
+        @change="filterBooks()"
+        v-model="title"
       />
       <div class="absolute search-icon" style="top: 1rem; left: 0.8rem">
         <svg
@@ -32,10 +34,10 @@
         list="cate"
         class="w-full bg-gray-200 transition border border-transparent focus:outline-none focus:border-sky-500 rounded py-3 px-2 pl-10 appearance-none leading-normal"
         placeholder="Catégorie"
-        @change="search"
-        v-model="this.$state.category"
+        @change="filterBooks()"
+        v-model="category"
       />
-      <datalist id="cate">
+      <datalist id="cate" class="bg-sky-500">
         <option value="POÉSIE">POÉSIE</option>
         <option value="FICTION HISTORIQUE">FICTION HISTORIQUE</option>
         <option value="CLASSIQUE">CLASSIQUE</option>
@@ -53,13 +55,13 @@
         list="brow"
         class="w-full bg-gray-200 transition border border-transparent focus:outline-none focus:border-sky-500 rounded py-3 px-2 pl-10 appearance-none leading-normal"
         placeholder="Auteure"
-        @change="search"
-        v-model="this.$state.author"
+        @change="filterBooks()"
+        v-model="author"
       />
       <datalist id="brow">
         <template v-for="auther in Authors" :key="auther.index">
-          <option :value="auther.f_name + '-' + auther.l_name">
-            {{ auther.id_user }}
+          <option :value="auther.Id_user">
+            {{ auther.f_name }}-{{ auther.l_name }}
           </option>
         </template>
       </datalist>
@@ -75,13 +77,15 @@ export default {
   data() {
     return {
       Authors: "",
-      Author : "",
-      title : "",
-      Category : ""
+      author: "",
+      title: "",
+      category: "",
+      Books: "",
     };
   },
   mounted() {
     this.getAuthors();
+    this.AllBooks();
   },
   methods: {
     getAuthors() {
@@ -101,8 +105,47 @@ export default {
           alert(error.status);
         });
     },
-    search() {
-    this.$router.push('/Search');
+    AllBooks() {
+      axios({
+        method: "POST",
+        url: "http://attic.local/Book/getAllBooks",
+        headers: { "Content-Type": "multipart/raw" },
+      })
+        .then((response) => {
+          if (response.status == 200) {
+            if (response.data) {
+              this.Books = response.data;
+            }
+          }
+        })
+        .catch((error) => {
+          alert(error.status);
+        });
+    },
+    filterBooks() {
+      this.$router.push("/Search");
+      let NewBooks = this.Books.filter((book) =>
+        this.title != ""
+          ? this.title === book.titre_book
+          : true && this.category != ""
+          ? this.category === book.category_book
+          : true && this.author != ""
+          ? this.author == book.Id_user
+          : true
+      );
+      this.$store.state.Books = NewBooks;
+      console.log(this.$store.state.Books);
+    },
+  },
+  watch: {
+    title() {
+      this.$store.state.title = this.title;
+    },
+    category() {
+      this.$store.state.category = this.category;
+    },
+    author() {
+      this.$store.state.author = this.author;
     },
   },
 };

@@ -29,7 +29,10 @@
       <div
         class="flex flex-col w-full gap-8 pt-6 items-center md:flex-row justify-between"
       >
-        <router-link :to="'/Profile/?Author='+Id_user" class="flex justify-center items-center">
+        <router-link
+          :to="'/Profile/?Author=' + Id_user"
+          class="flex justify-center items-center"
+        >
           <div class="w-10 h-10">
             <img
               class="rounded-full w-full h-full"
@@ -41,28 +44,30 @@
             >&nbsp;&nbsp;{{ Author }}</span
           >
         </router-link>
-        
-          <div class="flex justify-between w-36 items-center">
-            <div class="flex justify-between 1/3 items-center">
-              <img
-                class="w-6"
-                src="../assets/icons/vision-partagee (1).png"
-                alt=""
-              />
-              <span>40M</span>
-            </div>
-            <div class="flex justify-between 1/3 items-center">
-              <img class="w-5" src="../assets/icons/favori.png" alt="" />
-              <span>25M</span>
-            </div>
-          </div>
-        
 
-        <button class="flex items-center cta text-white">
+        <div class="flex justify-between w-36 items-center">
+          <div class="flex justify-between 1/3 items-center">
+            <img
+              class="w-6"
+              src="../assets/icons/vision-partagee (1).png"
+              alt=""
+            />
+            <span>40M</span>
+          </div>
+          <div class="flex justify-between 1/3 items-center">
+            <img class="w-5" src="../assets/icons/favori.png" alt="" />
+            <span>25M</span>
+          </div>
+        </div>
+
+        <routerLink
+          :to="'/Read/?book=' + Id_book"
+          class="flex items-center cta text-white"
+        >
           <span class="hover-underline-animation text-white text-md">
             plus&nbsp;de&nbsp;détails&nbsp;&RightArrow;</span
           >
-        </button>
+        </routerLink>
       </div>
     </div>
   </div>
@@ -81,7 +86,7 @@ export default {
     "description",
     "Author",
     "profile",
-    "Id_user"
+    "Id_user",
   ],
   setup() {},
 };

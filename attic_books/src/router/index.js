@@ -5,6 +5,7 @@ import ProfileView from "../views/ProfileView.vue";
 import DetailsView from "../views/DetailsView.vue";
 import SearchView from "../views/SearchView.vue";
 import AdminView from "../views/AdminView.vue";
+import ReadView from "../views/ReadView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,11 @@ const router = createRouter({
       path: "/Admin",
       name: "Admin",
       component: AdminView,
+    },
+    {
+      path: "/Read",
+      name: "Read",
+      component: ReadView,
     },
   ],
 });

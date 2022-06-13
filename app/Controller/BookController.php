@@ -87,13 +87,39 @@ class BookController
 
 
         $post->id_book = $_POST['id_book'];
-        $post->titre_chapter = $_POST['titre_book'];
-        $post->chapter = $_POST['chapter'];
+        $post->chapiters = json_decode($_POST['chapiters']);
+
+        foreach ($post->chapiters  as $chapeter) {
+            if ($chapeter->title || $chapeter->body) {
+                echo json_encode(
+                    $post->Writing($chapeter->title, $chapeter->body, $chapeter->index)
+                );
+            }
+        }
     }
 
 
 
 
     #########################################################################################################################
+
+    public function readBook()
+    {
+        $post = new Publisher();
+        $post->id_book = $_POST['id_book'];
+        $post->index_chapiter = $_POST['chapiter'];
+
+        if ($post->id_book) {
+            echo json_encode(
+                $post->getBook()
+            );
+        }
+    }
+
+
+
+
+
+
 
 }

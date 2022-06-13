@@ -6,15 +6,22 @@ export const store = createStore({
       {
         title: "",
         body: "",
+        index: 0,
       },
     ],
-
-    showImgPopup: false,
-    showImgPopupbg: false,
-    count: 0,
+    slide: {
+      index: 0,
+      title: "",
+      body: "",
+    },
     title: "",
     category: "",
     author: "",
+    Books: [],
+
+    showImgPopup: false,
+    showImgPopupbg: false,
+    count: 1,
   },
 
   getters: {
@@ -25,6 +32,7 @@ export const store = createStore({
 
       return false;
     },
+
     // popupConn(x)
     // {
     //   x = !x
@@ -32,16 +40,19 @@ export const store = createStore({
   },
   mutations: {
     addCart(state, item) {
-      item.body != "" ? (state.carts[state.count - 1].body = item.body) : "";
-      item.title != "" ? (state.carts[state.count - 1].title = item.title) : "";
+      state.carts[item.index].body = item.body;
+      state.carts[item.index].title = item.title;
+      state.carts[item.index].index = item.index;
     },
     incrementCount() {
-      this.state.count = this.state.count + 1;
+      this.state.count += 1;
       const item = {
-        title: "vide",
-        body: "vide",
+        title: "",
+        body: "",
+        index: this.state.count -1,
       };
       this.state.carts.push(item);
+      this.commit("slides", item);
     },
     toggle(state) {
       state.showImgPopup = !state.showImgPopup;
@@ -49,10 +60,11 @@ export const store = createStore({
     bgPopup(state) {
       state.showImgPopupbg = !state.showImgPopupbg;
     },
-    search(state, item) {
-      title != "" ? (state.title = item.title) : "";
-      category != "" ? (state.category = item.category) : "";
-      author != "" ? (state.author = item.author) : "";
+    slides(state, item) {
+      state.slide.body = item.body;
+      state.slide.index = item.index;
+      state.slide.title = item.title;
+
     },
   },
 });

@@ -16,6 +16,9 @@ class Publisher
     public $Description;
     public $id_book;
     public $id_user;
+    public $index_chapiter;
+    public $chapiter;
+    public $title_chapiter;
 
     public function __construct()
     {
@@ -79,4 +82,45 @@ class Publisher
         }
     }
 
+    public function Writing(
+        $title,
+        $body,
+        $index
+    ) {
+        $query = "INSERT INTO `chapiter` (`Id_book`, `titre_paragraphe`, `paragraphe`, `index`) VALUES (?,?,?,?)";
+        $stmt = $this->conn->prepare($query);
+
+
+
+        $this->id_book = htmlspecialchars(strip_tags($this->id_book));
+        $this->index_chapiter = htmlspecialchars(strip_tags($index));
+        $this->chapiter = htmlspecialchars(strip_tags($body));
+        $this->title_chapiter = htmlspecialchars(strip_tags($title));
+
+        $stmt->bindParam(1, $this->id_book);
+        $stmt->bindParam(2, $this->title_chapiter);
+        $stmt->bindParam(3, $this->chapiter);
+        $stmt->bindParam(4, $this->index_chapiter);
+
+
+        if ($stmt->execute()) {
+            return $this->id_book;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getBook()
+    {
+        $query = "SELECT * FROM `chapiter` WHERE Id_book = ? And index_chapiter = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->id_book);
+        $stmt->bindParam(2, $this->index_chapiter);
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row;
+        }
+    }
 }

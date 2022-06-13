@@ -21,7 +21,6 @@
             <router-link to="/">Accueil</router-link>
             <router-link to="/Details"> Nouveau livre </router-link>
             <router-link to="/Search"> Chercher </router-link>
-            <router-link to="#"> ... </router-link>
             <button
               @click="conn = !conn"
               v-if="compte === false"
@@ -34,12 +33,12 @@
               <div class="ml-3 relative">
                 <div>
                   <MenuButton
-                    class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    class="max-w-xs bg-gray-800 rounded-full cursor-pointer flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                     @click="open_pro = !open_pro"
                   >
                     <span class="sr-only">Open user menu</span>
                     <img
-                      class="h-12 w-12 rounded-full"
+                      class="h-12 w-12 rounded-full cursor-pointer"
                       :src="'/src/assets/uploads/' + image"
                       alt=""
                     />
@@ -76,12 +75,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <button
-                
-                class="conn-button w-auto text-black px-4"
-              >
-                {{ this.compte }}
-              </button> -->
             </div>
           </div>
         </nav>

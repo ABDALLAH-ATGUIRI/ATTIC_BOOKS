@@ -244,20 +244,25 @@ export default {
       bodyFormData.append("Description", this.Description);
       bodyFormData.append("couverture", this.couverture);
       bodyFormData.append("id_user", this.id_user);
-
-      await axios({
-        method: "POST",
-        url: "http://attic.local/Book/create_book",
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-          if (response.status == 200) {
-            localStorage.setItem("Id_book", response.data);
-            this.$router.push("/Write");
-          }
+      if (bodyFormData) {
+        await axios({
+          method: "POST",
+          url: "http://attic.local/Book/create_book",
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
         })
-        .catch((error) => {});
+          .then((response) => {
+            if (response.status == 200) {
+              if (response.data) {
+                localStorage.setItem("Id_book", response.data);
+                this.$router.push("/Write");
+              }else{
+                alert("s'il vous plaît requis les entrées");
+              }
+            }
+          })
+          .catch((error) => {});
+      }
     },
   },
 };

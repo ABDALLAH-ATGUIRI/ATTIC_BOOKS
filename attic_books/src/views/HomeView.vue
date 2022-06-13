@@ -102,7 +102,7 @@ export default {
   },
   mounted() {
     this.AllBooks();
-    console.log(this.$route.query.test) 
+    // console.log(this.$route.query.test) 
     // new Splide( '.splide' ).mount( { AutoScroll } );
   },
 
@@ -116,7 +116,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             if (response.data) {
-              console.log(response.data);
+              // console.log(response.data);
               this.Books = response.data;
             }
           }

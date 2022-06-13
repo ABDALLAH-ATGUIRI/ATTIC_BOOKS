@@ -11,14 +11,14 @@
               <span
                 class="bg-gray-400 w-20 px-2 font-extrabold rounded-full text-white text-xs"
                 >!</span
-              ></label
-            >
+              >
+            </label>
             <input
               type="text"
               id="titre"
               class="border-2 p-2 text-sm font-medium"
-              maxlength="16"
-              v-model="title"
+              maxlength="50"
+              v-model="this.$store.state.slide.title"
               @change="addToCart()"
             />
           </div>
@@ -33,36 +33,52 @@
             <textarea
               class="border-2 h-screen p-3 overflow-hidden text-sm"
               id="Description "
-              v-model="body"
+              v-model="this.$store.state.slide.body"
               @change="addToCart()"
             ></textarea>
           </div>
+          <input type="hidden" v-model="this.$store.state.slide.index" />
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 export default {
-  data (){
-    return{
-      title : '',
-      body : '',
-    }
+  // props: ["title", "body", "index"],
+  data() {
+    return {
+      title: "",
+      body: "",
+      index: "",
+    };
   },
-  methods:{
-    addToCart(){
-      
-    }
-  },
-  watch :{
-    title(){
-      this.addToCart()
+  methods: {
+    show() {
+      this.title = this.$store.state.slide.title;
+      this.body = this.$store.state.slide.body;
+      this.index = this.$store.state.slide.index;
+
+      // console.log(this.title, this.body, this.index);
     },
-    body(){
-      this.addToCart()
-    }
-  }
-}
+    addToCart() {
+      this.show();
+      const item = {
+        title: this.title,
+        body: this.body,
+        index: this.index,
+      };
+      this.$store.commit("addCart", item);
+     
+    },
+  },
+  watch: {
+    title() {
+      this.addToCart();
+    },
+    body() {
+      this.addToCart();
+    },
+  },
+};
 </script>

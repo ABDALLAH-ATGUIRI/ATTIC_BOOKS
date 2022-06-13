@@ -3,18 +3,23 @@
     <!--Nav-->
     <nav
       aria-label="menu nav"
-      class="bg-sky-600 px-2 shadow-xl mt-0 h-auto z-10 fixed w-full top-0"
+      class="bg-sky-600 pr-2 shadow-xl mt-0 h-auto  fixed w-full top-0"
     >
       <div class="flex flex-wrap items-center">
         <div
           class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white"
         >
-           <img class="pt-2 w-1/2 sm: h-20" src="../assets/test.png" alt="logo">
-          
+        <div class="w-1/2 sm: h-20"
+        ></div>
+          <!-- <img
+            class=" "
+            src="../assets"
+            alt="logo"
+          /> -->
         </div>
 
         <div
-          class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2"
+          class="flex flex-1 md:w-2/4 justify-center md:justify-start text-white px-2"
         >
           <span class="relative w-full">
             <input
@@ -37,75 +42,37 @@
             </div>
           </span>
         </div>
-        <div class="w-1/3">
-
-        </div>
-
-
+        <div class="w-1/3"></div>
       </div>
     </nav>
   </header>
 
   <main>
-    <div class="flex fixed h-1/2 flex-col md:flex-row">
-      <nav aria-label="alternative nav">
+    <div class="flex fixed  flex-col md:flex-row">
+      <nav aria-label="">
         <div
-          class="bg-sky-600 shadow-xl fixed bottom-0 mt-20 md:relative md:h-screen z-10 w-full md:w-64 content-center"
+          class="bg-sky-600 shadow-xl fixed bottom-0 md:mt-20 md:relative md:h-screen z-10 w-full md:w-32 content-center"
         >
           <div
-            class="md:mt-12 md:w-64 md:fixed md:left-0 md:top-0 content-center md:content-start text-left justify-between"
+            class="md:mt-16 md:w-32 md:fixed md:left-0 md:top-0 h-full content-center md:content-start text-left justify-between"
           >
-            <ul
-              class="list-reset flex flex-row md:flex-col py-5 mt-20 px-1 md:px-2 text-center md:text-left"
-            >
-              <li class="mr-3 flex-1">
-                <a
-                  href="#"
-                  class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-sky-800 hover:border-pink-500"
-                >
-                  <i class="fas fa-tasks pr-0 md:pr-3"></i
-                  ><span
-                    class="pb-1 md:pb-0 text-xs md:text-base text-sky-400 md:text-sky-200 block md:inline-block"
-                    >Tasks</span
-                  >
-                </a>
+            <ul class="flex flex-col items-center justify-around h-5/6 mt-10">
+              <li class="w-12 h-12">
+                <img class="w-full h-full" src="../assets/icons/home.png" alt="">
               </li>
-              <li class="mr-3 flex-1">
-                <a
-                  href="#"
-                  class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-sky-800 hover:border-purple-500"
-                >
-                  <i class="fa fa-envelope pr-0 md:pr-3"></i
-                  ><span
-                    class="pb-1 md:pb-0 text-xs md:text-base text-sky-400 md:text-sky-200 block md:inline-block"
-                    >Messages</span
-                  >
-                </a>
+              <li class="w-12 h-12">
+                <img class="w-full h-full" src="../assets/icons/user.png" alt="">
               </li>
-              <li class="mr-3 flex-1">
-                <a
-                  href="#"
-                  class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600"
-                >
-                  <i class="fas fa-chart-area pr-0 md:pr-3 text-blue-600"></i
-                  ><span
-                    class="pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block"
-                    >Analytics</span
-                  >
-                </a>
+              <li class="w-12 h-12">
+                <img class="w-full h-full" src="../assets/icons/audeladeslimites_hfc_desktop_final_2 (1).png" alt="">
               </li>
-              <li class="mr-3 flex-1">
-                <a
-                  href="#"
-                  class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-sky-800 hover:border-red-500"
-                >
-                  <i class="fa fa-wallet pr-0 md:pr-3"></i
-                  ><span
-                    class="pb-1 md:pb-0 text-xs md:text-base text-sky-400 md:text-sky-200 block md:inline-block"
-                    >Payments</span
-                  >
-                </a>
+              <li class="w-12 h-12">
+                <img class="w-full h-full" src="../assets/icons/home.png" alt="">
               </li>
+              <li class="w-12 h-12">
+                <img class="w-full h-full" src="../assets/icons/exit.png" alt="">
+              </li>
+
             </ul>
           </div>
         </div>
@@ -113,11 +80,11 @@
       <section class="">
         <div
           id="main"
-          class="main-content flex-1 overflow-y-auto px-10 h-screen bg-sky-100  md:mt-20 pb-24 md:pb-5"
+          class="main-content flex-1 overflow-y-auto px-10 h-screen bg-sky-100 md:mt-20 pb-24 md:pb-5"
         >
-          <div class=" mt-10 w-full mx-auto">
+          <div class="mt-10 w-full mx-auto">
             <div
-              class="rounded-t-3xl  bg-gradient-to-r from-blue-500 to-sky-700 p-4 shadow text-2xl text-white"
+              class="rounded-t-3xl bg-gradient-to-r from-blue-500 to-sky-700 p-4 shadow text-2xl text-white"
             >
               <h1 class="font-bold pl-2">Analytics</h1>
             </div>
