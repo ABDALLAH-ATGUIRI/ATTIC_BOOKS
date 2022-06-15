@@ -1,5 +1,5 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
-<template >
+<template>
   <nav>
     <AppHeader />
   </nav>
@@ -21,8 +21,10 @@
         <img src="../assets/uploads/add-image.png" alt="" />
       </button>
     </div>
-    <div class="h-48 absolute left-[40vw] right-[40vw] top-32 mx-auto flex flex-col justify-center">
-      <div class=" h-full flex flex-col justify-evenly items-center">
+    <div
+      class="h-48 absolute left-[40vw] right-[40vw] top-32 mx-auto flex flex-col justify-center"
+    >
+      <div class="h-full flex flex-col justify-evenly items-center">
         <div class="relative w-28 h-28">
           <img
             class="rounded-full bg-gray-500 w-full h-full"
@@ -47,28 +49,33 @@
     class="w-full lg:text-[16px] flex h-36 text-xs items-center justify-evenly"
   >
     <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 p-3 active:bg-sky-600 active:text-white"
+      class="flex items-align cursor-pointer gap-5 justify-center bg-slate-100 text-black text-md shadow-lg text-center font-bold rounded-sm p-4"
+      @click="con = 'Lecture'"
+      :class="{ 'bg-sky-600 text-white': con == 'Lecture' }"
     >
-      Mes lectures
+      <span>Liste de Lecture</span>
+
+      <img class="w-5 h-5" src="../assets/icons/open-book.png" alt="" />
     </div>
     <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 p-3 active:bg-sky-600 active:text-white"
+      class="flex items-align cursor-pointer gap-5 justify-center bg-slate-100 text-black text-md shadow-lg text-center font-bold rounded-sm p-4"
+      @click="con = 'Souhaits'"
+      :class="{ 'bg-sky-600 text-white': con == 'Souhaits' }"
     >
-      Mes livres
+      <span>Liste de souhaits</span>
+      <img src="../assets/icons/love.png" class="w-6 h-5" alt="" />
     </div>
     <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-md lg:w-44 p-3 active:bg-sky-600 active:text-white"
+      class="flex items-align cursor-pointer gap-5 justify-center bg-slate-100 text-black text-md shadow-lg text-center font-bold rounded-sm p-4"
+      @click="con = 'Ecriture'"
+      :class="{ 'bg-sky-600 text-white': con == 'Ecriture' }"
     >
-      Liste de souhaits
-    </div>
-    <div
-      class="bg-slate-100 text-black shadow-lg text-center font-bold rounded-sm lg:w-44 p-3 active:bg-sky-600 active:text-white"
-    >
-      Mon classement
+      <span>Liste d'écriture</span>
+      <img class="w-5 h-5" src="../assets/icons/quill-pen.png" alt="" />
     </div>
   </div>
-  <div class="mt-10">
-    <myBooks :Author="id_user" />
+  <div class="mt-10" v-if="con == 'Ecriture'">
+    <myBooks :Author="id_user" :who="who"></myBooks>
   </div>
 </template>
 
@@ -78,20 +85,21 @@ import BackgroundImage from "../components/box/background_img.vue";
 import ProfileImage from "../components/box/user_img.vue";
 import axios from "axios";
 import MyBooks from "../components/MyBooks.vue";
-import router from '../router';
+import router from "../router";
 
 export default {
   name: "home",
   data() {
     return {
-      pro_img: "",
-      bg_img: "",
+      pro_img: this.$store.state.user_img,
+      bg_img: this.$store.state.bg_img,
       f_name: "",
       l_name: "",
       id_user: localStorage["id_user"],
-      who : true ,
+      who: true,
       showImgPopup: 0,
       showImgPopupbg: 0,
+      con: "Ecriture",
     };
   },
   components: {
@@ -101,10 +109,10 @@ export default {
     MyBooks,
   },
   mounted() {
-    this.com() ;
+    this.com();
     if (this.$route.query.Author) {
       this.id_user = this.$route.query.Author;
-      this.who = false ;
+      this.who = false;
       this.Author();
     } else {
       this.userInfo();
@@ -122,8 +130,6 @@ export default {
     userInfo() {
       this.f_name = localStorage["f_name"];
       this.l_name = localStorage["l_name"];
-      this.pro_img = localStorage["pro_image"];
-      this.bg_img = localStorage["bg_image"];
     },
     async Author() {
       let formdata = new FormData();
@@ -139,7 +145,7 @@ export default {
             if (response.data) {
               this.pro_img = response.data["pro_image"];
               this.bg_img = response.data["bg_image"];
-              this.f_name = response.data["f_name"] ;
+              this.f_name = response.data["f_name"];
               this.l_name = response.data["l_name"];
             } else {
               router.push({ path: "/" });
@@ -152,11 +158,15 @@ export default {
     },
     com() {
       this.who = this.$store.getters.popupShow;
-      if(this.who != true)
-      {
-        router.push({path : '/'})
+      if (this.who != true) {
+        router.push({ path: "/" });
       }
     },
   },
 };
 </script>
+<style lang="css">
+*::-webkit-scrollbar {
+  width: 5px;
+}
+</style>

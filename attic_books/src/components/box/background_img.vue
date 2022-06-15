@@ -102,6 +102,7 @@ export default {
             if (response.data == true) {
               localStorage.setItem("bg_image", this.image);
               this.$store.commit("bgPopup");
+      this.$store.state.bg_img = this.image;
               //  this.$router.push("/Profile");
             } else {
               alert("Ceci est l'email qui existe déjà");

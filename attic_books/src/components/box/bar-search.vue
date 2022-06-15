@@ -105,8 +105,8 @@ export default {
           alert(error.status);
         });
     },
-    AllBooks() {
-      axios({
+    async AllBooks() {
+      await axios({
         method: "POST",
         url: "http://attic.local/Book/getAllBooks",
         headers: { "Content-Type": "multipart/raw" },
@@ -115,6 +115,9 @@ export default {
           if (response.status == 200) {
             if (response.data) {
               this.Books = response.data;
+              if (this.$route.query.cate) {
+                this.getBookByCate();
+              }
             }
           }
         })
@@ -134,7 +137,15 @@ export default {
           : true
       );
       this.$store.state.Books = NewBooks;
-      console.log(this.$store.state.Books);
+      // console.log(this.$store.state.Books);
+    },
+    async getBookByCate() {
+      this.category = this.$route.query.cate;
+      let NewBooks = this.Books.filter(
+        (book) => this.category == book.category_book
+      );
+      // console.log(this.Books);
+      this.$store.state.Books = NewBooks;
     },
   },
   watch: {

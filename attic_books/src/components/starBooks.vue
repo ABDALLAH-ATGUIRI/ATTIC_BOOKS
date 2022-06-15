@@ -5,7 +5,7 @@
     <div class="lg:w-1/3 drop-shadow-2xl">
       <div class="flex justify-start items-center w-full drop-shadow-2xl">
         <div
-          class="relative group w-32 h-48 md:w-48 mx-8 md:h-72 overflow-hidden bg-black m-auto"
+          class="relative group w-44 h-64 md:w-48 mx-8 md:h-72 overflow-hidden bg-black m-auto"
         >
           <img
             class="object-cover w-full h-full transform duration-700 backdrop-opacity-100"
@@ -45,19 +45,33 @@
           >
         </router-link>
 
-        <div class="flex justify-between w-36 items-center">
-          <div class="flex justify-between 1/3 items-center">
-            <img
-              class="w-6"
-              src="../assets/icons/vision-partagee (1).png"
-              alt=""
-            />
+        <div class="flex justify-between w-44 items-center">
+          <div class="flex gap-2 items-center">
+            <img class="w-6 h-6" src="../assets/icons/view.png" alt="views" />
             <span>40M</span>
           </div>
-          <div class="flex justify-between 1/3 items-center">
-            <img class="w-5" src="../assets/icons/favori.png" alt="" />
-            <span>25M</span>
-          </div>
+          <template v-if="Aime">
+            <div class="flex gap-2 items-center">
+              <img
+                class="w-5 h-5"
+                src="../assets/icons/like.png"
+                alt="likes"
+                @click="Aime = !Aime"
+              />
+              <span>25M</span>
+            </div>
+          </template>
+          <template v-else>
+            <div class="flex gap-2 items-center">
+              <img
+                class="w-7 h-7"
+                src="../assets/icons/love (1).png"
+                alt="likes"
+                @click="Aime = !Aime"
+              />
+              <span>25M</span>
+            </div>
+          </template>
         </div>
 
         <routerLink
@@ -87,7 +101,13 @@ export default {
     "Author",
     "profile",
     "Id_user",
+    "Aimes",
   ],
+  data() {
+    return {
+      Aime: true,
+    };
+  },
   setup() {},
 };
 </script>

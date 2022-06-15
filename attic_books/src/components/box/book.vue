@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between w-full flex-nowrap drop-shadow-2xl">
+  <div class="flex justify-center w-full flex-nowrap drop-shadow-2xl">
     <div class="relative group w-[200px] h-72 overflow-hidden bg-black m-auto">
       <img
         class="object-cover w-full h-full transform duration-700 backdrop-opacity-100"
@@ -33,12 +33,114 @@
         </router-link>
       </div>
     </div>
+    <template v-if="id_author == id_user && annuler == 0">
+      <div class="flex flex-col justify-around h-2/3">
+        <div
+          v-if="pub == 0"
+          class="w-8 h-8 hover:w-9 hover:h-9 duration-150 ease-in-out ease-in-in"
+          @click="publisher"
+        >
+          <img src="../../assets/icons/private.png" alt="public" />
+        </div>
+        <div
+          v-else
+          class="w-7 h-7 hover:w-8 hover:h-8 duration-150 ease-in-out ease-in-in"
+        >
+          <img
+            src="../../assets/icons/team.png"
+            @click="publisher"
+            alt="public"
+          />
+        </div>
+        <routerLink
+          class="w-7 h-7 hover:w-8 hover:h-8 duration-150 ease-in-out"
+          :to="'/Details?book=' + Id_book"
+        >
+          <img
+            src="../../assets/icons/edit (1).png"
+            @click="editBook"
+            alt="edit"
+          />
+        </routerLink>
+
+        <div
+          class="w-7 h-7 hover:w-8 hover:h-8 duration-150 ease-in-out"
+          @click="deleteBook"
+        >
+          <img src="../../assets/icons/trash.png" alt="delete" />
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  props: ["title", "coverture", "category", "Id_book", "classification"],
+  name: "book",
+  props: [
+    "title",
+    "coverture",
+    "category",
+    "Id_book",
+    "classification",
+    "id_author",
+    "publish",
+    "annuler",
+  ],
+  data() {
+    return {
+      id_user: localStorage["id_user"],
+      pub: this.publish,
+    };
+  },
+  methods: {
+    deleteBook() {
+      let bodyFormData = new FormData();
+      bodyFormData.append("id_book", this.Id_book);
+
+      if (bodyFormData) {
+        axios({
+          method: "POST",
+          url: "http://attic.local/Book/DelBook",
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              if (response.data) {
+                if (response.data == true) location.reload();
+              } else {
+                alert("");
+              }
+            }
+          })
+          .catch((error) => {});
+      }
+    },
+   async publisher() {
+      let bodyFormData = new FormData();
+      bodyFormData.append("id_book", this.Id_book);
+
+      bodyFormData.append("publish", this.pub);
+
+      if (bodyFormData) {
+      await  axios({
+          method: "POST",
+          url: "http://attic.local/Book/PublishBook",
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              this.pub = !this.pub;
+            }
+          })
+          .catch((error) => {});
+      }
+    },
+  },
   setup() {},
 };
 </script>

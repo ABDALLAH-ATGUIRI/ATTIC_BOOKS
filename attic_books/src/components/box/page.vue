@@ -44,6 +44,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   // props: ["title", "body", "index"],
   data() {
@@ -51,26 +52,67 @@ export default {
       title: "",
       body: "",
       index: "",
+      id_book: this.$route.query.book,
+      id_user: localStorage["id_user"],
     };
   },
+mounted()
+{
+this.getBook();
+},
   methods: {
     show() {
       this.title = this.$store.state.slide.title;
       this.body = this.$store.state.slide.body;
       this.index = this.$store.state.slide.index;
+      this.id_book = this.$route.query.book
 
       // console.log(this.title, this.body, this.index);
     },
     addToCart() {
       this.show();
-      const item = {
+      let item = {
         title: this.title,
         body: this.body,
         index: this.index,
+        id_book : this.id_book
       };
+      this.$store.commit("slides", item);
+
       this.$store.commit("addCart", item);
-     
     },
+    getBook() {
+      let formData = new FormData();
+      formData.append("id_user", this.id_user);
+      formData.append("id_book", this.id_book);
+
+      axios({
+        method: "POST",
+        url: "http://attic.local/Book/GetAllChapiters",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((response) => {
+          if (response.status == 200) {
+            if (response.data != '') {
+              let item = [];
+              response.data.map(function (value, key) {
+                item.push({
+                  title: value.titre_paragraphe,
+                  body: value.paragraphe,
+                  index: key,
+                  id_book: value.id_book,
+                });
+                
+              });              
+              this.$store.state.carts = item ;
+            }
+          }
+        })
+        .catch((error) => {
+        });
+    },
+    addItel(item) {},
   },
   watch: {
     title() {

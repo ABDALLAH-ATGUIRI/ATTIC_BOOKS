@@ -102,6 +102,7 @@ export default {
             if (response.data == true) {
               localStorage.setItem("pro_image", this.image);
               this.$store.commit("toggle");
+              this.$store.state.user_img = this.image;
               //  this.$router.push("/Profile");
             }
           }

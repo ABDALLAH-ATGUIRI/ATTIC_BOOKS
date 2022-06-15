@@ -6,31 +6,45 @@
     <div class="flex h-36 w-full">
       <div class="flex justify-around items-center w-full self-end pb-2">
         <Annuler></Annuler>
-        <button
-          class="font-semibold border-2 bg-blue-600 active:bg-blue-800 rounded-sm text-white p-2 text-medium font-bold px-8 rounded-md"
-          @click="addBook"
-        >
-          Enregistré
-        </button>
+
+        <template v-if="this.id_book">
+          <button
+            @click="EditBook"
+            class="font-semibold text-white p-2 font-medium px-6 rounded-md bg-sky-600"
+          >
+            Enregistré
+          </button>
+        </template>
+        <template v-else>
+          <button
+            @click="addBook"
+            class="font-semibold p-2 text-white font-medium px-6 rounded-md bg-sky-600"
+          >
+            Enregistré
+          </button>
+        </template>
       </div>
     </div>
     <div
       class="px-4 pb-24 w-full h-screen overflow-y-scroll scrollbar-thin scrollbar-w-2 scrollbar-track-blue-300 scroll-smooth scrollbar-track-rounded-full shadow-xl"
     >
-      <template v-for="number in $store.state.count" :key="number">
+      <div v-for="number in $store.state.carts" :key="number.index">
         <WritingPageVue
-          v-bind:title="$store.state.carts[number - 1].title"
-          v-bind:body="$store.state.carts[number - 1].body"
-          v-bind:number="number"
+          v-bind:title="number.title"
+          v-bind:body="number.body"
+          v-bind:number="number.index+1"
+          v-bind:id_book="this.$route.query.book"
+          v-bind:index="number.index"
           @click="
             chapiter(
-              number - 1,
-              $store.state.carts[number - 1].title,
-              $store.state.carts[number - 1].body
+              number.index,
+              number.title,
+              number.body,
+              number.id_book
             )
           "
         ></WritingPageVue>
-      </template>
+      </div>
       <div class="w-full h-12 mb-20 flex items-center justify-center">
         <img
           src="../assets/icons/plus.png"
@@ -50,6 +64,7 @@ import Page from "../components/box/page.vue";
 import HeaderBooK from "../components/Global/HeaderBook.vue";
 import Annuler from "../components/box/botton_annuler.vue";
 import axios from "axios";
+// import { forEach } from "cypress/types/lodash";
 export default {
   name: "WritingPage",
   data() {
@@ -58,49 +73,55 @@ export default {
       body: "",
       index: "",
       data: "",
+      id_book: this.$route.query.book,
+      id_user: localStorage["id_user"],
     };
-  },
-  created() {
-    // console.log(this.$store.state.carts[this.$store.state.count])
-  },
-  methods: {
-    chapiter(index, title, body) {
-      const item = {
-        title: title,
-        body: body,
-        index: index,
-      };
-      this.$store.commit("slides", item);
-    },
-    addBook() {
-      let bodyFormData = new FormData();
-      bodyFormData.append("id_book", localStorage["Id_book"]);
-      bodyFormData.append("chapiters", JSON.stringify(this.$store.state.carts));
-      if (bodyFormData) {
-        axios({
-          method: "POST",
-          url: "http://attic.local/Book/chapters",
-          data: bodyFormData,
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-          .then((response) => {
-            if (response.status == 200) {
-              if (response.data) {
-                this.$router.push("/Profile");
-              } else {
-                alert("s'il vous plaît requis les entrées");
-              }
-            }
-          })
-          .catch((error) => {});
-      }
-    },
   },
   components: {
     WritingPageVue,
     Page,
     HeaderBooK,
     Annuler,
+  },
+  mounted() {
+  },
+  methods: {
+    chapiter(index, title, body, id_book) {
+      const item = {
+        title: title,
+        body: body,
+        index: index,
+        id_book: id_book,
+      };
+
+      this.$store.commit("slides", item);
+    },
+
+    EditBook() {
+      let bodyFormData = new FormData();
+      bodyFormData.append("id_book", this.id_book);
+      bodyFormData.append("id_user", this.id_user);
+      bodyFormData.append("chapiters", JSON.stringify(this.$store.state.carts));
+      if (bodyFormData) {
+        axios({
+          method: "POST",
+          url: "http://attic.local/Book/EditChapiters",
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              if (response.data) {
+                console.log(response.data);
+                // this.$router.push("/Profile");
+              } else {
+                alert("");
+              }
+            }
+          })
+          .catch((error) => {});
+      }
+    },
   },
 };
 </script>

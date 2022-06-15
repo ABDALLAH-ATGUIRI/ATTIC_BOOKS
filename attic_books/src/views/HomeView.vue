@@ -10,10 +10,7 @@
       <BienvenuVue />
     </section>
     <!-- <hr class="pt-20" /> -->
-    <section class="flex flex-col align-center justify-center">
-      <div class="p-16 mt-10 text-center text-3xl md:text-4xl font-semibold">
-        <h1>Des articles >></h1>
-      </div>
+    <section class="flex pb-12 pt-36 flex-col align-center justify-center">
       <CategoriesVue />
     </section>
     <!-- <hr class="py-48" /> -->
@@ -23,11 +20,9 @@
       </div>
       <div
         class="bg-sky-600 w-5/6 rounded-xl mx-auto flex flex-col h-screen snap-y snap-mandatory scroll-smooth lg:h-96 p-8 overflow-x-hidden hide-scroll-bar items-center"
-       
       >
         <div v-for="book in this.Books" :key="book.index">
           <stareBook
-            
             :title="book.titre_book"
             :coverture="book.couverture"
             :category="book.category_book"
@@ -36,14 +31,14 @@
             :description="book.Description"
             :profile="book.pro_image"
             :Author="book.f_name + '&nbsp;-&nbsp;' + book.l_name"
-            :Id_user = "book.Id_user"
+            :Id_user="book.Id_user"
           />
 
           <h1 class="text-3xl text-black">{{ book.index }}</h1>
         </div>
       </div>
     </section>
-    
+
     <section class="flex flex-col align-center justify-center">
       <div class="py-16 w-full text-center text-3xl md:text-4xl font-semibold">
         <h1>Par nos suggestions >></h1>
@@ -102,7 +97,7 @@ export default {
   },
   mounted() {
     this.AllBooks();
-    // console.log(this.$route.query.test) 
+    // console.log(this.$route.query.test)
     // new Splide( '.splide' ).mount( { AutoScroll } );
   },
 

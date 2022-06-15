@@ -168,16 +168,24 @@
         class="w-5/6 lg:w-1/2 text-sm lg:mr-[108px] mx-auto flex justify-between text-white py-10"
       >
         <Annuler></Annuler>
-        <button
-          @click="AddBook"
-          class="font-semibold p-2 font-medium px-6 rounded-md bg-sky-600"
-        >
-          Passer
-        </button>
+        <template v-if="this.id_book">
+          <button
+            @click="EditBook"
+            class="font-semibold p-2 font-medium px-6 rounded-md bg-sky-600"
+          >
+            Passer
+          </button>
+        </template>
+        <template v-else>
+          <button
+            @click="AddBook"
+            class="font-semibold p-2 font-medium px-6 rounded-md bg-sky-600"
+          >
+            Passer
+          </button>
+        </template>
       </div>
     </div>
-
-    <!-- <hr /> -->
   </div>
 </template>
 
@@ -201,9 +209,17 @@ export default {
       Description: "",
       couverture: "",
       id_user: localStorage["id_user"],
+      id_book: this.$route.query.book,
+      who: true,
     };
   },
-
+  mounted() {
+    this.com();
+    if (this.id_book) {
+      this.getBook();
+    }
+    
+  },
   methods: {
     uploadImage(evt, index) {
       let formData = new FormData();
@@ -255,13 +271,76 @@ export default {
             if (response.status == 200) {
               if (response.data) {
                 localStorage.setItem("Id_book", response.data);
-                this.$router.push("/Write");
-              }else{
-                alert("s'il vous plaît requis les entrées");
+                this.id_book = response.data;
+                this.$router.push("/Write?book=" + this.id_book);
+              } else {
+                alert("");
               }
             }
           })
           .catch((error) => {});
+      }
+    },
+    getBook() {
+      let formData = new FormData();
+      formData.append("id_user", this.id_user);
+      formData.append("id_book", this.id_book);
+
+      axios({
+        method: "POST",
+        url: "http://attic.local/Book/getOneBook",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((response) => {
+          if (response.status == 200) {
+            if (response.data) {
+              this.Category = response.data.category_book;
+              this.Language = response.data.Langage;
+              this.Target = response.data.classification;
+              this.Title = response.data.titre_book;
+              this.Description = response.data.Description;
+              this.couverture = response.data.couverture;
+            }
+          }
+        })
+
+        .catch((error) => {
+          alert(error.status);
+        });
+    },
+    async EditBook() {
+      let bodyFormData = new FormData();
+      bodyFormData.append("category_book", this.Category);
+      bodyFormData.append("Langage", this.Language);
+      bodyFormData.append("classification", this.Target);
+      bodyFormData.append("titre_book", this.Title);
+      bodyFormData.append("Description", this.Description);
+      bodyFormData.append("couverture", this.couverture);
+      bodyFormData.append("id_user", this.id_user);
+      bodyFormData.append("id_book", this.id_book);
+      if (bodyFormData) {
+        await axios({
+          method: "POST",
+          url: "http://attic.local/Book/EditBook",
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              if (response.data == true) {
+                this.$router.push("/Write?book=" + this.id_book);
+              } else {
+                alert("");
+              }
+            }
+          })
+          .catch((error) => {});
+      }
+    },
+    com() {
+      if (this.id_user !==) {
+        router.push({ path: "/" });
       }
     },
   },

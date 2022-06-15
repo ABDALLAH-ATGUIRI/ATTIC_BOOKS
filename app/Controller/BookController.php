@@ -77,26 +77,7 @@ class BookController
 
 
 
-    #########################################################################################################################################################
 
-
-
-    public function chapters()
-    {
-        $post = new Publisher();
-
-
-        $post->id_book = $_POST['id_book'];
-        $post->chapiters = json_decode($_POST['chapiters']);
-
-        foreach ($post->chapiters  as $chapeter) {
-            if ($chapeter->title || $chapeter->body) {
-                echo json_encode(
-                    $post->Writing($chapeter->title, $chapeter->body, $chapeter->index)
-                );
-            }
-        }
-    }
 
 
 
@@ -117,9 +98,170 @@ class BookController
     }
 
 
+    ##########################################################################################################################
 
 
 
+    public function DelBook()
+    {
+        $post = new Publisher();
+        $post->id_book = $_POST['id_book'];
+
+        if ($post->id_book) {
+            echo json_encode(
+                $post->Del()
+            );
+        }
+    }
 
 
+    #####################################################################################################################################"
+
+
+    public function PublishBook()
+    {
+        $post = new Publisher();
+        $post->id_book = $_POST['id_book'];
+        $post->publish = !$_POST['publish'];
+
+
+        if ($post->id_book) {
+            echo json_encode(
+                $post->publBook()
+            );
+        }
+    }
+
+
+    #################################################################################################################################################
+
+
+    public function getOneBook()
+    {
+        $post = new Publisher();
+        $post->id_book = $_POST['id_book'];
+        $post->id_user = $_POST['id_user'];
+
+        if ($post->id_book && $post->id_user) {
+            echo json_encode(
+                $post->OneBook()
+            );
+        }
+    }
+
+    ################################################################################################################################################
+
+
+    public function EditBook()
+    {
+        $post = new Publisher();
+
+        $post->id_book = $_POST['id_book'];
+        $post->titre_book = $_POST['titre_book'];
+        $post->category_book = $_POST['category_book'];
+        $post->classification = $_POST['classification'];
+        $post->couverture = $_POST['couverture'];
+        $post->Description = $_POST['Description'];
+        $post->Langage = $_POST['Langage'];
+        $post->id_user = $_POST['id_user'];
+
+
+
+        if (
+            ($post->id_book) &&
+            ($post->titre_book) &&
+            ($post->category_book) &&
+            ($post->classification) &&
+            ($post->couverture) &&
+            ($post->Description) &&
+            ($post->Langage) &&
+            ($post->id_user)
+        ) {
+
+
+            echo json_encode(
+                $post->Edit()
+            );
+        }
+    }
+
+    ################################################################################################################################################
+
+    public function GetAllChapiters()
+    {
+        $post = new Publisher();
+        $post->id_book = $_POST['id_book'];
+        $post->id_user = $_POST['id_user'];
+
+
+        if ($post->id_book && $post->id_user) {
+            echo json_encode(
+                $post->GetChapiters()
+            );
+        }
+    }
+
+    ################################################################################################################################################
+
+    // public function EditChapiters()
+    // {
+    //     $post = new Publisher();
+    //     $post->id_book = $_POST['id_book'];
+    //     $title = json_decode($_POST['title']);
+    //     $body = json_decode($_POST['body']);
+    //     $index = json_decode($_POST['index']);
+
+
+    //     if ($title || $body) {
+    //         json_encode(
+    //             $post->Writing($title, $body, $index)
+    //         );
+    //     }
+    // }
+
+
+    #########################################################################################################################################################
+
+
+
+    public function chapters()
+    {
+
+        $post = new Publisher();
+        $post->id_book = json_decode($_POST['id_book']);
+        $title = json_decode($_POST['title']);
+        $body = json_decode($_POST['body']);
+        $index  = json_decode($_POST['index']);
+
+
+
+        if ($index || $post->id_book) {
+            echo json_encode(
+                $post->Writing($title, $body, $index)
+            );
+        } else {
+            echo 'data is filed';
+        }
+    }
+
+
+    #########################################################################################################################################################
+
+
+
+    public function delChapters()
+    {
+
+        $post = new Publisher();
+        $post->id_book = json_decode($_POST['id_book']);
+        $post->index_chapiter  = json_decode($_POST['index']);
+
+        if ($post->index_chapiter || $post->id_book) {
+            echo json_encode(
+                $post->DelChapter()
+            );
+        } else {
+            echo 'data is filed';
+        }
+    }
 }
