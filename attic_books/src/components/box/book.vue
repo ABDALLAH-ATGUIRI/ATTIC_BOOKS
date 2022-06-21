@@ -6,10 +6,10 @@
         :src="`/src/assets/uploads/` + coverture"
       />
       <div
-        class="absolute w-full h-full shadow-2xl opacity-20 transform duration-500 inset-y-full group-hover:-inset-y-0"
+        class="absolute w-full h-full shadow-2xl opacity-20 transform duration-500 inset-y-full group-hover:-inset-y-0 group-focus:-inset-y-0"
       ></div>
       <div
-        class="absolute bg-gradient-to-b from-sky-900 w-full h-full transform duration-500 inset-y-3/4 group-hover:-inset-y-0"
+        class="absolute bg-gradient-to-b from-sky-900 w-full h-full transform duration-500 inset-y-3/4 group-hover:-inset-y-0 group-focus:-inset-y-0"
       >
         <div class="absolute w-full flex place-content-center">
           <h2
@@ -24,7 +24,7 @@
             {{ classification }}
           </p>
         </div>
-        <router-link :to="'/Read/?book=' + Id_book">
+        <router-link :to="'/Read/?book=' + Id_book + '#above'">
           <button
             class="absolute bottom-4 bg-white text-black font-bold rounded-sm h-10 w-full"
           >
@@ -43,7 +43,7 @@
           <img src="../../assets/icons/private.png" alt="public" />
         </div>
         <div
-          v-else
+          v-if="pub == 1"
           class="w-7 h-7 hover:w-8 hover:h-8 duration-150 ease-in-out ease-in-in"
         >
           <img
@@ -92,8 +92,11 @@ export default {
   data() {
     return {
       id_user: localStorage["id_user"],
-      pub: this.publish,
+      pub: "",
     };
+  },
+  mounted() {
+    this.pub = this.publish;
   },
   methods: {
     deleteBook() {
@@ -119,14 +122,14 @@ export default {
           .catch((error) => {});
       }
     },
-   async publisher() {
+    publisher() {
       let bodyFormData = new FormData();
       bodyFormData.append("id_book", this.Id_book);
 
       bodyFormData.append("publish", this.pub);
 
       if (bodyFormData) {
-      await  axios({
+        axios({
           method: "POST",
           url: "http://attic.local/Book/PublishBook",
           data: bodyFormData,
@@ -134,11 +137,20 @@ export default {
         })
           .then((response) => {
             if (response.status == 200) {
-              this.pub = !this.pub;
+              if (response.data === true) {
+                this.pub = !this.pub;
+              } else {
+                alert(response.data);
+              }
             }
           })
           .catch((error) => {});
       }
+    },
+  },
+  watch: {
+    publish() {
+      this.pub = this.publish;
     },
   },
   setup() {},

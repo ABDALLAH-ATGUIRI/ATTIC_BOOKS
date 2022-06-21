@@ -1,6 +1,6 @@
 <template>
-  <div class="px-auto w-5/6 mx-auto">
-    <div class="flex w-full mb-14  flex-col md:flex-row gap-10">
+  <div class="px-auto w-5/6 mx-auto mb-20">
+    <div class="flex w-full mb-14 flex-col md:flex-row gap-10">
       <div
         class="relative ml-2 col-span-2 w-full grid-col-1 flex md:w-1/3 w-full justify-center md:justify-start text-white"
       >
@@ -25,29 +25,23 @@
           </svg>
         </div>
       </div>
-      <div  v-if="who" class="flex justify-between h-auto md:w-2/3">
+      <div v-if="who" class="flex justify-around h-auto md:w-2/3">
         <div
-          class="flex items-center cursor-pointer  bg-slate-100 text-black text-xs lg:text-sm shadow-lg text-center font-bold rounded-sm p-4"
-          @click="search"
-        >
-          <span  >toute</span>
-        </div>
-        <div
-          class="flex items-center cursor-pointer gap-5 justify-center bg-slate-100 text-xs text-black lg:text-sm shadow-lg text-center font-bold rounded-sm p-4 "
-          @click="privateBook(0)"
-        >
-          <span class="sm:flex hidden">livres privés</span>
-          <img class="w-5 h-5" src="../assets/icons/private.png" alt="" />
-        </div>
-        <div
-          class="flex items-center cursor-pointer  gap-5 justify-center bg-slate-100 text-xs text-black lg:text-sm shadow-lg text-center font-bold rounded-sm p-4 "
+          class="flex items-center cursor-pointer gap-5 justify-center bg-slate-100 text-xs text-black lg:text-sm shadow-lg text-center font-bold rounded-sm p-4"
           @click="privateBook(1)"
         >
           <span class="sm:flex hidden">livres publics</span>
           <img class="w-5 h-5" src="../assets/icons/team.png" alt="" />
         </div>
         <div
-          class="flex items-center cursor-pointer gap-5 justify-center bg-slate-100 text-black text-xs lg:text-sm shadow-lg text-center font-bold rounded-sm p-4 "
+          class="flex items-center cursor-pointer gap-5 justify-center bg-slate-100 text-xs text-black lg:text-sm shadow-lg text-center font-bold rounded-sm p-4"
+          @click="privateBook(0)"
+        >
+          <span class="sm:flex hidden">livres privés</span>
+          <img class="w-5 h-5" src="../assets/icons/private.png" alt="" />
+        </div>
+        <div
+          class="flex items-center cursor-pointer gap-5 justify-center bg-slate-100 text-black text-xs lg:text-sm shadow-lg text-center font-bold rounded-sm p-4"
           @click="annuler"
         >
           <span class="sm:flex hidden h-auto"> livres annulés </span>
@@ -82,7 +76,7 @@ import axios from "axios";
 import Books from "./box/book.vue";
 export default {
   name: "myBooks",
-  props: ["Author","who"],
+  props: ["Author", "who"],
   components: {
     Books,
   },
@@ -101,10 +95,10 @@ export default {
     this.MyBooks();
   },
   methods: {
-    MyBooks() {
+    async MyBooks() {
       let formData = new FormData();
       formData.append("id_user", this.id_user);
-      axios({
+      await axios({
         method: "POST",
         url: "http://attic.local/Book/getMyBooks",
         data: formData,
@@ -115,7 +109,7 @@ export default {
             if (response.data) {
               this.Books = response.data;
               this.myBooks = this.Books;
-              this.privateBook(1)
+              this.privateBook(1);
             }
           }
         })
@@ -124,12 +118,6 @@ export default {
           alert(error.status);
         });
     },
-    async search() {
-      let NewBooks = this.myBooks.filter((book) =>
-        this.Title ? this.Title === book.titre_book : true && book.Annuler === 0
-      );
-      this.myBooks = NewBooks;
-    },
     privateBook(x) {
       let NewBooks = this.Books.filter(
         (book) => book.publisher === x && book.Annuler === 0
@@ -137,9 +125,7 @@ export default {
       this.myBooks = NewBooks;
     },
     annuler() {
-      let NewBooks = this.Books.filter(
-        (book) => book.Annuler === 1
-      );
+      let NewBooks = this.Books.filter((book) => book.Annuler === 1);
       this.myBooks = NewBooks;
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <AppHeader></AppHeader>
   <div
-    class="w-full mt-4 flex flex-col items-center justify-evenly py-8 bg-sky-600 h-auto"
+    class="w-full mt-1 flex flex-col items-center justify-evenly py-8 bg-sky-600 h-auto"
   >
     <div class="lg:px-32 pb-8 md:pl-10 md:self-start block">
       <h1 class="font-bold text-2xl text-white">Trouvez votre livre</h1>
@@ -40,7 +40,7 @@ import SearchBar from "../components/box/bar-search.vue";
 import books from "../components/box/book.vue";
 import Footer from "../components/Global/Footer.vue";
 import axios from "axios";
-import { watch } from '@vue/runtime-core';
+import { watch } from "@vue/runtime-core";
 export default {
   name: "Search",
   components: {
@@ -54,13 +54,6 @@ export default {
       Books: this.$store.state.Book,
     };
   },
-
-watch : {
-Books()
-{
-  console.log(this.Books);
-}
-}
 
 };
 </script>

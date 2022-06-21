@@ -1,7 +1,7 @@
 <template>
-  <div class="relative w-3/4 h-screen ml-auto overflow-y-scroll">
+  <div class="relative md:w-3/4 w-full h-screen ml-auto md:overflow-y-scroll">
     <div
-      class="w-2/3 font-medium shadow-2xl border-black mx-auto mt-32 divide-x-16"
+      class="md:w-2/3 w-full font-medium shadow-2xl border-black mx-auto md:mt-32 divide-x-16"
     >
       <div class="w-5/6 py-10 mx-auto text-base">
         <div>

@@ -1,4 +1,5 @@
 <template>
+  <span id="above"></span>
   <RouterView />
 </template>
 
@@ -10,7 +11,6 @@
   font-family: "poppins", sans-serif;
   overflow: hidden;
 }
-
 </style>
 
 <script>
@@ -18,8 +18,6 @@ import { RouterLink, RouterView } from "vue-router";
 
 // import login from "@/components/Global/login.vue";
 // import SingUp from "@/components/Global/SingUp.vue";
-
-
 
 export default {
   name: "App",

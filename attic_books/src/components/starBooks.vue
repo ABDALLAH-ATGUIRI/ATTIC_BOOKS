@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex lg:flex-row snap-center snap-always flex-col items-center justify-around max-h-screen h-full py-12"
+    class="flex lg:flex-row snap-center snap-always flex-col items-center justify-around lg:h-full h-screen py-12"
   >
     <div class="lg:w-1/3 drop-shadow-2xl">
       <div class="flex justify-start items-center w-full drop-shadow-2xl">
@@ -16,7 +16,7 @@
     </div>
 
     <div
-      class="flex flex-col max-h-screen lg:px-10 h-full mt-10 lg:mt-0 justify-around text-white"
+      class="flex flex-col max-h-screen lg:px-10 h-full mt-10 lg:mt-0 md:w-[600px] xl:min-w-full justify-around text-white"
     >
       <h1
         class="capitalize font-serif font-bold text-xl md:text-3xl text-center text-white mb-5"
@@ -29,23 +29,20 @@
       <div
         class="flex flex-col w-full gap-8 pt-6 items-center md:flex-row justify-between"
       >
-        <router-link
-          :to="'/Profile/?Author=' + Id_user"
-          class="flex justify-center items-center"
-        >
-          <div class="w-10 h-10">
+        <span @click="Profile" class="flex cursor-pointer justify-center items-center">
+          <div class="w-10 h-10 flex justify-center items-center">
             <img
               class="rounded-full w-full h-full"
               :src="`/src/assets/uploads/` + profile"
               alt=""
             />
           </div>
-          <span class="text-nowrap text-md text-gray-300 font-bold w-48"
+          <span class="text-nowrap text-md text-gray-300 font-bold"
             >&nbsp;&nbsp;{{ Author }}</span
           >
-        </router-link>
+        </span>
 
-        <div class="flex justify-between w-44 items-center">
+        <!-- <div class="flex justify-between w-44 items-center">
           <div class="flex gap-2 items-center">
             <img class="w-6 h-6" src="../assets/icons/view.png" alt="views" />
             <span>40M</span>
@@ -72,10 +69,10 @@
               <span>25M</span>
             </div>
           </template>
-        </div>
+        </div> -->
 
         <routerLink
-          :to="'/Read/?book=' + Id_book"
+          :to="'/Read/?book=' + Id_book + '#above'"
           class="flex items-center cta text-white"
         >
           <span class="hover-underline-animation text-white text-md">
@@ -109,6 +106,17 @@ export default {
     };
   },
   setup() {},
+  methods: {
+    Profile() {
+      if (localStorage["id_user"]) {
+        // this.$router.push({ name: '/Profile', params: { Author: this.Id_user } })
+        this.$router.push("/Profile/?Author=" + this.Id_user);
+      } else {
+        this.$store.state.popupConn = !this.$store.state.popupConn;
+        this.$router.push('#above')
+      }
+    },
+  },
 };
 </script>
 

@@ -88,7 +88,7 @@ class BookController
     {
         $post = new Publisher();
         $post->id_book = $_POST['id_book'];
-        $post->index_chapiter = $_POST['chapiter'];
+        $post->index_chapiter = $_POST['chapiter'] - 1;
 
         if ($post->id_book) {
             echo json_encode(
@@ -126,9 +126,16 @@ class BookController
 
 
         if ($post->id_book) {
-            echo json_encode(
-                $post->publBook()
-            );
+
+            if ($post->countRows()[0] > 0) {
+                echo json_encode(
+                    $post->publBook()
+                );
+            } else {
+                echo json_encode(
+                    'Ce livre est vide'
+                );
+            }
         }
     }
 
@@ -259,6 +266,25 @@ class BookController
         if ($post->index_chapiter || $post->id_book) {
             echo json_encode(
                 $post->DelChapter()
+            );
+        } else {
+            echo 'data is filed';
+        }
+    }
+
+
+
+    #########################################################################################################################################################
+
+    public function countChapiters()
+    {
+
+        $post = new Publisher();
+        $post->id_book = $_POST['id_book'];
+
+        if ($post->id_book) {
+            echo json_encode(
+                $post->countRows()
             );
         } else {
             echo 'data is filed';

@@ -34,4 +34,12 @@ class AuthorsController
             $post->getAllAuthors()
         );
     }
+
+    public function FourAuthors()
+    {
+        $post = new Users();
+        echo json_encode(
+            $post->getAuthors()
+        );
+    }
 }

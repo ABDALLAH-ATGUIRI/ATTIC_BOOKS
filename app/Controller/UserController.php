@@ -59,8 +59,18 @@ class userController
         $data = json_decode(file_get_contents("php://input"));
         if ($rep = $post->read_single($data->email)) {
             if (password_verify($data->password, $rep['password'])) {
+                if ($rep['banned'] === 0) {
+                    echo json_encode(
+                        $rep
+                    );
+                } else {
+                    echo json_encode(
+                        'Votre compte a été bloqué'
+                    );
+                }
+            } else {
                 echo json_encode(
-                    $rep
+                    "Vérifiez que l'e-mail ou le mot de passe est incorrect"
                 );
             }
         };
@@ -99,6 +109,58 @@ class userController
     }
 
 
-    ###########################################################################################################################
-    
+    ########################################################################################################################### ###########################################################################################################################
+
+    public function createAdmin()
+    {
+        header('Access-Control-Allow-Methods: POST');
+
+        $post = new Connexion();
+        $post->nom = $_POST['f_name'];
+        $post->prenom = $_POST['l_name'];
+        $post->email = $_POST['email'];
+        $post->password = $_POST['password'];
+        $post->conpassword = $_POST['conpassword'];
+        if (
+            $post->password == $post->conpassword
+            && filter_var($post->email, FILTER_VALIDATE_EMAIL)
+            && preg_match("/^[a-zA-Z0-9]*$/", $post->nom)
+            && preg_match("/^[a-zA-Z0-9]*$/", $post->prenom)
+        ) {
+
+            if (
+                ($post->nom) &&
+                ($post->prenom) &&
+                ($post->email) &&
+                ($post->password)
+            ) {
+
+
+                echo json_encode(
+                    $post->createAdmin()
+                );
+            }
+        } else {
+            echo json_encode(
+                false
+            );
+        }
+    }
+
+
+    ########################################################################################################################### ###########################################################################################################################
+
+    public function connAdmin()
+    {
+        $post = new Connexion();
+        $post->email = $_POST['email'];
+        $post->password = $_POST['password'];
+        if ($rep = $post->ConnexionAdmin()) {
+            if (password_verify($post->password, $rep['password'])) {
+                echo json_encode(
+                    $rep
+                );
+            }
+        };
+    }
 }

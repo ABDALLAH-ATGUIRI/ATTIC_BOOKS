@@ -1,5 +1,24 @@
 <template>
-  <HeaderBook></HeaderBook>
+    <div
+    class="w-full fixed z-40 absolute bg-sky-600 h-20 top-0 pr-10 flex items-center justify-between"
+  >
+    <div class="pl-2 text-white flex items-center justify-evenly md:w-1/4">
+      <span
+        class="font-bold text-4xl cover cursor-pointer"
+        @click="$router.push('/')"
+      >
+        &lang;
+      </span>
+      <div class="flex flex-col text-center">
+        <span class="text-xs text-gray-300"
+          >Ajouter une description sur le livre
+        </span>
+        <span class="md:text-2xl font-bold tracking-widest"
+          >Livre sans titre</span
+        >
+      </div>
+    </div>
+  </div>
   <div class="md:w-11/12 mx-auto">
     <div
       class="w-full text-xl font-medium shadow-2xl border-black mt-32 divide-x-16 ml-auto"
@@ -191,13 +210,11 @@
 
 <script>
 // import { defineComponent } from '@vue/composition-api'
-import HeaderBook from "../components/Global/HeaderBook.vue";
 import Annuler from "../components/box/botton_annuler.vue";
 import axios from "axios";
 export default {
   name: "",
   components: {
-    HeaderBook,
     Annuler,
   },
   data() {
@@ -221,6 +238,7 @@ export default {
     
   },
   methods: {
+
     uploadImage(evt, index) {
       let formData = new FormData();
       let imgFile = evt.target.files[0];
@@ -339,10 +357,12 @@ export default {
       }
     },
     com() {
-      if (this.id_user !==) {
+      this.who = this.$store.getters.popupShow;
+      if (this.who != true) {
         router.push({ path: "/" });
       }
     },
+    
   },
 };
 </script>

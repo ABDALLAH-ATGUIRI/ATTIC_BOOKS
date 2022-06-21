@@ -25,23 +25,23 @@ class Connexion
     }
 
 
-    public function read()
-    {
+    // public function read()
+    // {
 
-        $query = 'SELECT *  FROM ' . $this->table . '';
+    //     $query = 'SELECT *  FROM ' . $this->table . '';
 
-        $stmt = $this->conn->prepare($query);
+    //     $stmt = $this->conn->prepare($query);
 
-        $stmt->execute();
+    //     $stmt->execute();
 
-        return $stmt;
-    }
+    //     return $stmt;
+    // }
 
 
     public function read_single($id)
     {
 
-        $query = "SELECT *  FROM $this->table  WHERE email = ? LIMIT 0,1 ";
+        $query = "SELECT *  FROM $this->table  WHERE email = ?  LIMIT 0,1 ";
 
         $stmt = $this->conn->prepare($query);
 
@@ -109,6 +109,46 @@ class Connexion
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function createAdmin()
+    {
+        // $query = 'INSERT INTO user SET nome = :nome, prenom = :prenom, phone = :phone , naissance = :naissance , id = :id';
+        $query = "INSERT INTO `admin` (`f_name`, `l_name` , `email`, `password`) VALUES ( ? , ? , ? , ?)";
+        $stmt = $this->conn->prepare($query);
+
+
+        $this->nome = htmlspecialchars(strip_tags($this->nom));
+        $this->prenom = htmlspecialchars(strip_tags($this->prenom));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+
+        $stmt->bindParam(1, $this->nom);
+        $stmt->bindParam(2, $this->prenom);
+        $stmt->bindParam(3, $this->email);
+        $stmt->bindParam(4,  $this->password);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function ConnexionAdmin()
+    {
+
+        $query = "SELECT *  FROM `admin`  WHERE email = ? LIMIT 0,1 ";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(1, $this->email);
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $row;
         }
     }
 }

@@ -1,4 +1,5 @@
 <template>
+  <span id="above"></span>
   <!-- **********************************************************************LOGIN********************************************************************* -->
   <div id="login" v-if="conn == true">
     <div class="rounded-t mb-0 px-6 py-6">
@@ -7,7 +8,7 @@
           Se connecter au ATTIC BOOKS
         </h6>
       </div>
-      <div class="btn-wrapper flex justify-around text-center">
+      <!-- <div class="btn-wrapper flex justify-around text-center">
         <button
           class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-6 py-2 rounded outline-none focus:outline-none mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
           type="button"
@@ -28,7 +29,7 @@
             src="../../assets/icons/google.png"
           />Google
         </button>
-      </div>
+      </div> -->
       <hr class="mt-6 border-b-1 border-blueGray-300" />
     </div>
     <div class="block h-[350px] px-4 lg:px-10 py-10 pt-0">
@@ -91,7 +92,7 @@
           S'inscrire au ATTIC BOOKS
         </h6>
       </div>
-      <div class="btn-wrapper flex justify-around text-center">
+      <!-- <div class="btn-wrapper flex justify-around text-center">
         <button
           class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-6 py-2 rounded outline-none focus:outline-none mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
           type="button"
@@ -112,7 +113,7 @@
             src="../../assets/icons/google.png"
           />Google
         </button>
-      </div>
+      </div> -->
       <hr class="mt-6 border-b-1 border-blueGray-300" />
     </div>
     <div class="block h-[450px] px-4 lg:px-10 py-10 pt-0">
@@ -211,6 +212,9 @@ export default {
       conpassword: "",
     };
   },
+  mounted() {
+    this.$router.push("#above");
+  },
   methods: {
     async signUp(e) {
       e.preventDefault();
@@ -260,7 +264,7 @@ export default {
       })
         .then((response) => {
           if (response.status == 200) {
-            if (response.data) {
+            if (response.data.id_utilisateur) {
               // localStorage.setItem("user-info", JSON.stringify(response.data));
               localStorage.setItem("id_user", response.data.id_utilisateur);
               localStorage.setItem("email", response.data.email);
@@ -272,9 +276,10 @@ export default {
 
               location.reload();
             } else {
-              alert("Vérifiez que l'e-mail ou le mot de passe est incorrect");
+              alert(response.data);
             }
-            // console.log(response.data);
+
+            // console.log(JSON.decod);
           }
         })
         .catch((error) => {

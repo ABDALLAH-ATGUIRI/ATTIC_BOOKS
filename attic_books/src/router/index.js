@@ -6,6 +6,7 @@ import DetailsView from "../views/DetailsView.vue";
 import SearchView from "../views/SearchView.vue";
 import AdminView from "../views/AdminView.vue";
 import ReadView from "../views/ReadView.vue";
+import AdminConView from "../views/AdminConView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,10 +20,6 @@ const router = createRouter({
       path: "/Write",
       name: "Write",
       component: WriteView,
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      // component: () => import('../views/WriteView.vue')
     },
     {
       path: "/Profile",
@@ -48,6 +45,11 @@ const router = createRouter({
       path: "/Read",
       name: "Read",
       component: ReadView,
+    },
+    {
+      path: "/ConnAdmin",
+      name: "ConnAdmin",
+      component: AdminConView,
     },
   ],
 });

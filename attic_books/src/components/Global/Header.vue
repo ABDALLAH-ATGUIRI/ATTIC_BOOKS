@@ -1,5 +1,5 @@
 <template>
-  <Popover class="top-0 inset-x-0 transition transform origin-top-right">
+  <div class="top-0 inset-x-0 transition transform origin-top-right">
     <div>
       <div
         class="relative bg-sky-600 font-semibold self-center text-white flex items-center justify-between md:pl-10"
@@ -14,15 +14,19 @@
         </router-link>
 
         <nav
-          class="hidden md:flex pr-20 justify-end items-center"
+          class="hidden lg:flex pr-20 justify-end items-center"
           aria-label="Global"
         >
           <div class="md:space-x-8 w-full flex items-center justify-between">
             <router-link to="/">Accueil</router-link>
-            <router-link to="/Details"> Nouveau livre </router-link>
+            <router-link to="/Details" v-if="compte === true">
+              Nouveau livre
+            </router-link>
             <router-link to="/Search"> Chercher </router-link>
             <button
-              @click="conn = !conn"
+              @click="
+                this.$store.state.popupConn = !this.$store.state.popupConn
+              "
               v-if="compte === false"
               class="conn-button w-auto text-black px-4"
             >
@@ -78,7 +82,7 @@
             </div>
           </div>
         </nav>
-        <div class="pr-20 md:hidden">
+        <div class="pr-20 lg:hidden">
           <button
             class="text-white-500 w-30 h-20 relative focus:outline-none"
             @click="open = !open"
@@ -107,72 +111,68 @@
         </div>
       </div>
     </div>
-    <div class="lg:hidden">
-      <div
-        class="md:hidden lg:hidden drop-shadow-xl bg-sky-600 transform transition duration-500 ease-in-out"
-        :class="{ ' -translate-y-72': !open, ' h-0': !open }"
-      >
-        <div class="p-5 flex text-white font-bold items-center justify-evenly">
-          <router-link to="/" class="w-1/4 flex justify-center">
+
+    <div
+      class="lg:hidden drop-shadow-xl bg-sky-600 transform transition duration-500 ease-in-out"
+      :class="{ ' -translate-y-72': !open, ' h-0': !open }"
+    >
+      <div class="p-5 flex text-white font-bold items-center justify-evenly">
+        <router-link to="/" class="w-1/4 flex justify-center">
+          <img
+            class="w-12 h-12 shadow-xl"
+            src="../../assets/icons/home.png"
+            alt="Home"
+          />
+        </router-link>
+        <router-link class="w-1/4 flex justify-center" to="/Profil">
+          <img
+            class="w-12 h-12 shadow-xl"
+            src="../../assets/icons/magnifying-glass.png"
+            alt=""
+          />
+        </router-link>
+
+        <button
+          @click="this.$store.state.popupConn = !this.$store.state.popupConn"
+          v-if="compte === false"
+          class="w-1/4 flex justify-center"
+        >
+          <img
+            class="w-12 h-12 shadow-xl"
+            src="../../assets/icons/key.png"
+            alt=""
+          />
+        </button>
+        <div v-else class="flex w-3/4 items-center justify-around">
+          <router-link to="/Details" class="w-auto">
             <img
-              class="w-12 shadow-xl"
-              src="../../assets/icons/home.png"
-              alt="Home"
+              class="w-12 h-12 shadow-xl"
+              src="../../assets/icons/writing.png"
+              alt="write"
+            />
+          </router-link>
+          <router-link to="/Profile" class="w-auto">
+            <img
+              class="h-12 w-12 bg-gray-500 rounded-full"
+              :src="'/src/assets/uploads/' + image"
+              alt="Profil"
             />
           </router-link>
 
-          <!-- <router-link class="w-12" to="/Profil">
+          <button @click="logout" class="w-auto">
             <img
-              class="w-12 shadow-xl"
-              src="../../assets/icons/user.png"
-              alt=""
-            />
-          </router-link> -->
-          <button
-            @click="conn = !conn"
-            v-if="compte === false"
-            class="w-1/4 flex justify-center"
-          >
-            <img
-              class="w-12 shadow-xl"
-              src="../../assets/icons/key.png"
-              alt=""
+              class="w-12 h-12 shadow-xl"
+              src="../../assets/icons/exit.png"
+              alt="logout"
             />
           </button>
-          <div v-else class="flex w-3/4 justify-around">
-            <router-link to="/Details" class="w-1/3 flex justify-center">
-              <img
-                class="w-12 shadow-xl"
-                src="../../assets/icons/writing.png"
-                alt="write"
-              />
-            </router-link>
-            <router-link to="/Profile" class="w-1/3">
-              <img
-                class="h-14 w-14 bg-gray-500 rounded-full"
-                :src="'/src/assets/uploads/' + image"
-                alt="Profil"
-              />
-            </router-link>
-
-            <button @click="logout" class="1/3">
-              <img
-                class="w-12 shadow-xl"
-                src="../../assets/icons/exit.png"
-                alt="logout"
-              />
-            </button>
-          </div>
         </div>
       </div>
-      <!-- <div class="drop-shadow-lg">
-        <search></search>
-      </div> -->
     </div>
-  </Popover>
+  </div>
   <div
-    v-if="conn == true"
-    class="fixed w-full tsrons flex justify-center h-[120vh] absolute z-40"
+    v-if="this.$store.state.popupConn == true"
+    class="fixed w-full tsrons flex justify-center h-[120vh] z-40"
   >
     <div
       class="absolute min-w-[370px] rounded-lg md:w-1/2 lg:w-4/12 shadow-lg self-center top-16 bg-white pt-6"
@@ -181,7 +181,7 @@
         class="flex flex-col min-w-0 break-words justify-between bg-blueGray-200 border-0"
       >
         <div
-          @click="conn = !conn"
+          @click="this.$store.state.popupConn = !this.$store.state.popupConn"
           class="font-semibold pointer-events cursor-pointer text-xl mx-8 self-end"
         >
           X
@@ -209,7 +209,7 @@ export default {
     return {
       compte: "",
       open: false,
-      conn: false,
+      conn: this.$store.state.popupConn,
       open_pro: false,
       image: localStorage["pro_image"],
       userNavigation: [

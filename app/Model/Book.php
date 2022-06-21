@@ -90,7 +90,7 @@ class Publisher
         $index
     ) {
 
-       
+
         $query = "INSERT INTO `chapiter` (`Id_book`, `titre_paragraphe`, `paragraphe`, `index_chapiter`) VALUES (?,?,?,?)";
         $stmt = $this->conn->prepare($query);
 
@@ -114,14 +114,14 @@ class Publisher
 
     public function getBook()
     {
-        $query = "SELECT * FROM `chapiter` WHERE Id_book = ? And index_chapiter = ?";
+        $query = "SELECT `Id_paragraphe`,`titre_paragraphe`, `paragraphe`, `index_chapiter` , `Id_user` FROM `chapiter` INNER JOIN $this->table ON chapiter.Id_book = $this->table.Id_book WHERE chapiter.Id_book = ? And chapiter.index_chapiter = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->id_book);
         $stmt->bindParam(2, $this->index_chapiter);
 
         if ($stmt->execute()) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $row;
+
+            return true;
         }
         return false;
     }
@@ -138,9 +138,11 @@ class Publisher
         return false;
     }
 
+
+
     public function publBook()
     {
-        $query = "UPDATE $this->table SET `publisher`= :publ WHERE Id_book = :id ";
+        $query = "UPDATE $this->table SET `publisher`= :publ WHERE Id_book = :id AND (SELECT COUNT(*) FROM `chapiter` WHERE Id_book = :id) > 0 ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':publ', $this->publish);
         $stmt->bindParam(':id', $this->id_book);
@@ -212,8 +214,6 @@ class Publisher
 
     public function DelChapter()
     {
-        // echo $this->id_book.'---'.
-        // $this->index_chapiter;
         $query = "DELETE FROM `chapiter` WHERE id_book = ? AND index_chapiter = ?";
         $stmt = $this->conn->prepare($query);
 
@@ -225,6 +225,22 @@ class Publisher
 
         if ($stmt->execute()) {
             return true;
+        }
+        return false;
+    }
+
+
+    public function countRows()
+    {
+        $query = "SELECT COUNT(*) FROM `chapiter` WHERE id_book = ? ";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(1, $this->id_book);
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetch(PDO::FETCH_NUM);
+
+            return $row;
         }
         return false;
     }

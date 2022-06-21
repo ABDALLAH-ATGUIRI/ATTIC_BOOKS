@@ -22,7 +22,7 @@
       </button>
     </div>
     <div
-      class="h-48 absolute left-[40vw] right-[40vw] top-32 mx-auto flex flex-col justify-center"
+      class="h-48 absolute left-[40vw] right-[40vw] top-64 mx-auto flex flex-col justify-center"
     >
       <div class="h-full flex flex-col justify-evenly items-center">
         <div class="relative w-28 h-28">
@@ -39,14 +39,14 @@
             <img src="../assets/uploads/add-image.png" alt="" />
           </button>
         </div>
-        <div class="text-gray-800 text-xl font-bold">
+        <div class="text-gray-800 text-xl font-extrabold">
           <span>@{{ f_name }}&nbsp;-&nbsp;{{ l_name }}</span>
         </div>
       </div>
     </div>
   </div>
   <div
-    class="w-full lg:text-[16px] flex h-36 text-xs items-center justify-evenly"
+    class="w-full mt-32 lg:text-[16px] flex h-36 text-xs items-center justify-evenly"
   >
     <div
       class="flex items-align cursor-pointer gap-5 justify-center bg-slate-100 text-black text-md shadow-lg text-center font-bold rounded-sm p-4"
@@ -100,6 +100,7 @@ export default {
       showImgPopup: 0,
       showImgPopupbg: 0,
       con: "Ecriture",
+      profile : this.$route.query.Author,
     };
   },
   components: {
@@ -110,13 +111,7 @@ export default {
   },
   mounted() {
     this.com();
-    if (this.$route.query.Author) {
-      this.id_user = this.$route.query.Author;
-      this.who = false;
-      this.Author();
-    } else {
-      this.userInfo();
-    }
+    this.whoI();
   },
   computed: {
     showImgPopup() {
@@ -131,10 +126,10 @@ export default {
       this.f_name = localStorage["f_name"];
       this.l_name = localStorage["l_name"];
     },
-    async Author() {
+    Author() {
       let formdata = new FormData();
       formdata.append("id_user", this.id_user);
-      await axios({
+      axios({
         method: "post",
         url: "http://attic.local/Authors/Author",
         data: formdata,
@@ -160,6 +155,15 @@ export default {
       this.who = this.$store.getters.popupShow;
       if (this.who != true) {
         router.push({ path: "/" });
+      }
+    },
+    whoI() {
+      if (this.profile) {
+        this.id_user = this.profile;
+        this.who = false;
+        this.Author();
+      } else {
+        this.userInfo();
       }
     },
   },

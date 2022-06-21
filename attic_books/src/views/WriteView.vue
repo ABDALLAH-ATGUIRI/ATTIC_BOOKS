@@ -1,51 +1,76 @@
 <template>
-  <HeaderBooK></HeaderBooK>
   <div
-    class="w-1/4 top-0 z-4 fixed bg-slate-100 border-1 font-medium border-black flex flex-col divide-x-16"
+    class="w-full z-40 absolute bg-sky-600 h-20 top-0 md:pr-10 flex items-center justify-between"
   >
-    <div class="flex h-36 w-full">
-      <div class="flex justify-around items-center w-full self-end pb-2">
-        <Annuler></Annuler>
-
-        <template v-if="this.id_book">
-          <button
-            @click="EditBook"
-            class="font-semibold text-white p-2 font-medium px-6 rounded-md bg-sky-600"
-          >
-            Enregistré
-          </button>
-        </template>
-        <template v-else>
-          <button
-            @click="addBook"
-            class="font-semibold p-2 text-white font-medium px-6 rounded-md bg-sky-600"
-          >
-            Enregistré
-          </button>
-        </template>
+    <div
+      class="pl-2 text-xs text-white flex items-center justify-evenly lg:w-1/4 md:w-1/3 sm:w-1/2"
+    >
+      <span
+        class="font-bold text-4xl cover cursor-pointer"
+        @click="$router.push('/Details?book=' + id_book)"
+      >
+        &lang;
+      </span>
+      <div class="flex flex-col text-center">
+        <span class="text-xs text-gray-300"
+          >Ajouter une description sur le livre
+        </span>
+        <span class="md:text-lg md:text-md font-bold tracking-widest"
+          >Livre sans titre</span
+        >
       </div>
     </div>
+    <div class="flex justify-end w-full pb-2">
+      <button
+        @click="addBook"
+        class="font-semibold hidden md:block p-3 text-black text-sm font-medium px-10 rounded-md bg-white"
+      >
+        Enregistré
+      </button>
+      <div class="md:hidden justify-evenly flex items-center">
+        <button
+          class="md:w-full w-12 h-10 md:flex self-start items-center justify-center"
+          @click="$store.commit('incrementCount')"
+        >
+          <img
+            src="../assets/icons/plus.png"
+            class="w-8 hover:w-10 duration-300 ease-in-out"
+            alt="Add page"
+          /></button
+        ><button
+          class="md:w-full w-12 h-10 md:flex self-start items-center justify-center"
+          @click="addBook"
+        >
+          <img
+            class="w-8 hover:w-10 duration-300 ease-in-out"
+            src="../assets/icons/diskette (1).png"
+            alt="Enregistré"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="md:w-1/4 w-full h-[160px] md:h-screen top-0 mt-20 z-4 md:fixed bg-slate-100 border-1 font-medium border-black flex md:flex-col divide-x-16"
+  >
     <div
-      class="px-4 pb-24 w-full h-screen overflow-y-scroll scrollbar-thin scrollbar-w-2 scrollbar-track-blue-300 scroll-smooth scrollbar-track-rounded-full shadow-xl"
+      class="px-4 md:pb-24 flex gap-8 md:block items-center md:mt-12 w-full md:h-screen overflow-x-scroll md:overflow-y-scroll scrollbar-thin scrollbar-w-2 scrollbar-track-blue-300 scroll-smooth scrollbar-track-rounded-full shadow-xl"
     >
       <div v-for="number in $store.state.carts" :key="number.index">
         <WritingPageVue
           v-bind:title="number.title"
           v-bind:body="number.body"
-          v-bind:number="number.index+1"
+          v-bind:number="number.index + 1"
           v-bind:id_book="this.$route.query.book"
           v-bind:index="number.index"
           @click="
-            chapiter(
-              number.index,
-              number.title,
-              number.body,
-              number.id_book
-            )
+            chapiter(number.index, number.title, number.body, number.id_book)
           "
         ></WritingPageVue>
       </div>
-      <div class="w-full h-12 mb-20 flex items-center justify-center">
+      <div
+        class="md:w-full hidden w-12 h-10 md:mb-20 md:flex self-start mt-10 items-center justify-center"
+      >
         <img
           src="../assets/icons/plus.png"
           class="w-10 hover:w-12 duration-300 ease-in-out"
@@ -61,8 +86,6 @@
 <script>
 import WritingPageVue from "../components/Global/WritingPage.vue";
 import Page from "../components/box/page.vue";
-import HeaderBooK from "../components/Global/HeaderBook.vue";
-import Annuler from "../components/box/botton_annuler.vue";
 import axios from "axios";
 // import { forEach } from "cypress/types/lodash";
 export default {
@@ -80,11 +103,8 @@ export default {
   components: {
     WritingPageVue,
     Page,
-    HeaderBooK,
-    Annuler,
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     chapiter(index, title, body, id_book) {
       const item = {
@@ -121,6 +141,10 @@ export default {
           })
           .catch((error) => {});
       }
+    },
+    addBook() {
+      this.$store.commit("incrementCount");
+      this.$router.push("/Profile");
     },
   },
 };

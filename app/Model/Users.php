@@ -49,4 +49,17 @@ class Users
             return $result;
         }
     }
+
+
+    public function getAuthors()
+    {
+        $query = "SELECT `id_utilisateur`, `f_name`, `l_name` , `bg_image`, `pro_image`  FROM `utilisateur` ORDER BY RAND() LIMIT 4";
+        $stmt = $this->conn->prepare($query);
+
+        if ($stmt->execute()) {
+            $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $row;
+        }
+    }
 }

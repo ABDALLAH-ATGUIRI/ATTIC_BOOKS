@@ -59,11 +59,11 @@
         v-model="author"
       />
       <datalist id="brow">
-        <template v-for="auther in Authors" :key="auther.index">
-          <option :value="auther.Id_user">
-            {{ auther.f_name }}-{{ auther.l_name }}
-          </option>
-        </template>
+        <option
+          :value="auther.f_name +' '+ auther.l_name"
+          v-for="auther in Authors"
+          :key="auther.index"
+        ></option>
       </datalist>
     </div>
   </form>
@@ -127,13 +127,14 @@ export default {
     },
     filterBooks() {
       this.$router.push("/Search");
+      console.log(this.author.split(' ')[0] +'     '+this.author.split(' ')[1]);
       let NewBooks = this.Books.filter((book) =>
         this.title != ""
           ? this.title === book.titre_book
           : true && this.category != ""
           ? this.category === book.category_book
           : true && this.author != ""
-          ? this.author == book.Id_user
+          ? ((this.author.split(' ')[0] == book.f_name))
           : true
       );
       this.$store.state.Books = NewBooks;
