@@ -20,15 +20,15 @@ Les chances que de nouveaux écrivains deviennent célèbres sont très faibles 
  
  ## 3 - CONCEPTION ET MODÉLISATION :
  
-      ### Diagramme use case :
+   ### Diagramme use case :
       
-      ![ATTIC usecase](https://user-images.githubusercontent.com/94124850/198543089-33430899-8512-4932-ab16-2ba8f8cfe393.jpeg)
+   ![ATTIC usecase](https://user-images.githubusercontent.com/94124850/198543089-33430899-8512-4932-ab16-2ba8f8cfe393.jpeg)
 
-      ### Diagramme de class :
+   ### Diagramme de class :
       
-      ![ATTIC classes](https://user-images.githubusercontent.com/94124850/198543320-0f57144b-c7aa-464c-8c6d-e23c329bf955.jpeg)
+   ![ATTIC classes](https://user-images.githubusercontent.com/94124850/198543320-0f57144b-c7aa-464c-8c6d-e23c329bf955.jpeg)
 
-      ### Diagramme de séquences :
+   ### Diagramme de séquences :
       
-      ![1 - Présentation de la problématique  (1)](https://user-images.githubusercontent.com/94124850/198543579-f8d4adcc-30d2-40fc-8254-49fed09716a8.jpg)
+   ![1 - Présentation de la problématique  (1)](https://user-images.githubusercontent.com/94124850/198543579-f8d4adcc-30d2-40fc-8254-49fed09716a8.jpg)
       
